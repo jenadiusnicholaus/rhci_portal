@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Donate to {{ case.patient.first_name }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-lg">
+        <div class="card-body text-center">
+          <h3 class="mb-3">Donate to {{ case.patient.first_name }} {{ case.patient.last_name }}</h3>
+          <p class="mb-2 text-muted">
+            <strong>Required:</strong> {{ case.target_amount }} {{ case.currency }}<br>
+            <strong>Raised so far:</strong> {{ case.amount_raised|default:0 }} {{ case.currency }}
+          </p>
+          <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="amount" class="form-label">Donation Amount ({{ case.currency }})</label>
+              <input type="number" min="1" step="any" name="amount" id="amount" class="form-control" required>
+            </div>
+            <!-- Add payment fields as needed -->
+            <div class="mb-3">
+              <label for="payment_method" class="form-label">Payment Method</label>
+              <select name="payment_method" id="payment_method" class="form-control" required>
+                <option value="MobileMoney">Mobile Money</option>
+                <option value="Card">Card</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-success btn-lg w-100">Donate</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

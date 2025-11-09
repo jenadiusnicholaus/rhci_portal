@@ -1,0 +1,514 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Donate | RHCI{% endblock %}
+
+{% block extra_css %}
+<style>
+.payment-gateway {
+    border: 1px solid #dee2e6;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.payment-gateway:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+}
+
+.payment-gateway.active {
+    border-color: #0d6efd;
+    background-color: #f8f9ff;
+}
+
+.amount-preset {
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.amount-preset:hover,
+.amount-preset.active {
+    border-color: #0d6efd;
+    background-color: #f8f9ff;
+}
+
+.payment-provider {
+    padding: 1rem;
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+}
+
+.payment-provider:hover {
+    background-color: #f8f9fa;
+}
+
+.step-indicator {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.step {
+    padding: 0.5rem 1rem;
+    margin: 0 1rem;
+    border-radius: 2rem;
+    background: #f8f9fa;
+    color: #6c757d;
+}
+
+.step.active {
+    background: #0d6efd;
+    color: white;
+}
+
+.donation-summary {
+    background: #f8f9fa;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-top: 1rem;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-body p-4">
+                    <h3 class="text-center mb-4">Support {{ case.patient.get_full_name }}</h3>
+                    
+                    <!-- Progress Steps -->
+                    <div class="step-indicator mb-4">
+                        <div class="step active" id="step-amount">1. Amount</div>
+                        <div class="step" id="step-payment">2. Payment</div>
+                        <div class="step" id="step-details">3. Details</div>
+                    </div>
+
+                    <form id="donation-form" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="case_id" value="{{ case.id }}">
+                        
+                        <!-- Step 1: Amount Selection -->
+                        <div id="amount-step">
+                            <!-- Preset Amounts -->
+                            <div class="mb-4">
+                                <label class="form-label">Select Amount</label>
+                                <div class="row g-3">
+                                    {% for amount in preset_amounts %}
+                                    <div class="col-6 col-md-3">
+                                        <div class="amount-preset text-center" data-amount="{{ amount }}">
+                                            <h5 class="mb-0">${{ amount }}</h5>
+                                            <small class="text-muted">USD</small>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    <div class="col-6 col-md-3">
+                                        <div class="amount-preset text-center" data-amount="all">
+                                            <h5 class="mb-0">All</h5>
+                                            <small class="text-muted">${{ case.remaining_amount }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Custom Amount -->
+                            <div class="mb-4">
+                                <label class="form-label">Or Enter Custom Amount</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control form-control-lg" 
+                                           name="amount" required min="1" step="0.01"
+                                           placeholder="Enter amount">
+                                    <select class="form-select form-select-lg" name="currency">
+                                        <option value="USD">USD</option>
+                                        <option value="TZS">TZS</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Support RHCI Option -->
+                            <div class="mb-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" 
+                                           id="support-rhci" name="support_rhci">
+                                    <label class="form-check-label" for="support-rhci">
+                                        Add 10% to support RHCI's work
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Next Button -->
+                            <div class="d-grid">
+                                <button type="button" class="btn btn-primary btn-lg" 
+                                        id="to-payment-step">Continue to Payment</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Payment Method -->
+                        <div id="payment-step" style="display:none">
+                            <div class="row g-4">
+                                <!-- Mobile Money -->
+                                <div class="col-md-6">
+                                    <div class="payment-gateway" data-method="mno">
+                                        <img src="{% static 'img/mobile-money.png' %}" 
+                                             height="40" alt="Mobile Money" class="mb-3">
+                                        <h5>Mobile Money</h5>
+                                        <p class="text-muted mb-0">M-Pesa, Airtel Money, Tigo Pesa</p>
+                                    </div>
+                                </div>
+
+                                <!-- Bank Transfer -->
+                                <div class="col-md-6">
+                                    <div class="payment-gateway" data-method="bank">
+                                        <img src="{% static 'img/bank.png' %}" 
+                                             height="40" alt="Bank Transfer" class="mb-3">
+                                        <h5>Bank Transfer</h5>
+                                        <p class="text-muted mb-0">CRDB, NMB</p>
+                                    </div>
+                                </div>
+
+                                <!-- PayPal (Coming Soon) -->
+                                <div class="col-md-6">
+                                    <div class="payment-gateway disabled" data-method="paypal">
+                                        <div class="coming-soon-badge">Coming Soon</div>
+                                        <img src="{% static 'img/paypal.png' %}" 
+                                             height="40" alt="PayPal" class="mb-3">
+                                        <h5>PayPal</h5>
+                                        <p class="text-muted mb-0">Pay with PayPal or Card</p>
+                                    </div>
+                                </div>
+
+                                <!-- Bitcoin (Coming Soon) -->
+                                <div class="col-md-6">
+                                    <div class="payment-gateway disabled" data-method="crypto">
+                                        <div class="coming-soon-badge">Coming Soon</div>
+                                        <img src="{% static 'img/bitcoin.png' %}" 
+                                             height="40" alt="Bitcoin" class="mb-3">
+                                        <h5>Bitcoin</h5>
+                                        <p class="text-muted mb-0">Pay with Cryptocurrency</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Provider Selection -->
+                            <div id="provider-section" class="mt-4" style="display:none">
+                                <h5 class="mb-3">Select Provider</h5>
+                                <div id="provider-list"></div>
+                            </div>
+
+                            <!-- Navigation Buttons -->
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-outline-secondary" 
+                                        id="back-to-amount">Back</button>
+                                <button type="button" class="btn btn-primary" 
+                                        id="to-details-step" disabled>Continue</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Payment Details -->
+                        <div id="details-step" style="display:none">
+                            <!-- Dynamic Payment Fields -->
+                            <div id="payment-details" class="mb-4"></div>
+
+                            <!-- Anonymous Option -->
+                            <div class="mb-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" 
+                                           id="anonymous" name="is_anonymous">
+                                    <label class="form-check-label" for="anonymous">
+                                        Make this donation anonymous
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Donation Summary -->
+                            <div class="donation-summary mb-4">
+                                <h6 class="mb-3">Donation Summary</h6>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Donation Amount:</span>
+                                    <span id="summary-amount"></span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2" id="summary-support" 
+                                     style="display:none">
+                                    <span>Support RHCI (10%):</span>
+                                    <span id="summary-support-amount"></span>
+                                </div>
+                                <div class="d-flex justify-content-between fw-bold">
+                                    <span>Total Amount:</span>
+                                    <span id="summary-total"></span>
+                                </div>
+                            </div>
+
+                            <!-- Navigation Buttons -->
+                            <div class="d-flex justify-content-between">
+                                <button type="button" class="btn btn-outline-secondary" 
+                                        id="back-to-payment">Back</button>
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    Complete Donation
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Processing Message -->
+                        <div id="processing" class="alert alert-info mt-3" style="display:none">
+                            Processing your donation...
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('donation-form');
+    const providerSection = document.getElementById('provider-section');
+    const providerList = document.getElementById('provider-list');
+    const paymentDetails = document.getElementById('payment-details');
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const processingMsg = document.getElementById('processing');
+
+    // Handle payment category selection
+    document.querySelectorAll('input[name="payment_category"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            const category = this.value;
+            providerSection.style.display = 'block';
+            providerList.innerHTML = `
+                <div class="text-center py-3">
+                    <div class="spinner-border spinner-border-sm"></div>
+                </div>
+            `;
+
+            // Fetch providers from AzamPay
+            fetch(`{% url 'donations:providers' %}?category=${category}`, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                credentials: 'same-origin'
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (!data.success) throw new Error(data.error);
+                
+                providerList.innerHTML = data.providers.map(p => `
+                    <div class="form-check provider-option">
+                        <input class="form-check-input" type="radio" 
+                               name="provider" id="provider_${p.id}" 
+                               value="${p.id}" data-provider="${p.provider}" required>
+                        <label class="form-check-label d-flex align-items-center gap-2" 
+                               for="provider_${p.id}">
+                            ${p.logo ? `<img src="${p.logo}" height="24" alt="${p.name}">` : ''}
+                            <span>${p.name}</span>
+                        </label>
+                    </div>
+                `).join('') || '<div class="alert alert-info">No providers available</div>';
+
+                // Wire up provider selection
+                providerList.querySelectorAll('input[name="provider"]').forEach(input => {
+                    input.addEventListener('change', showPaymentFields);
+                });
+            })
+            .catch(error => {
+                providerList.innerHTML = `
+                    <div class="alert alert-danger">
+                        ${error.message}
+                        <button type="button" class="btn btn-link p-0 ms-2" 
+                                onclick="this.closest('.provider-options').querySelector('input:checked').dispatchEvent(new Event('change'))">
+                            Retry
+                        </button>
+                    </div>
+                `;
+            });
+        });
+    });
+
+    function showPaymentFields() {
+        const category = document.querySelector('input[name="payment_category"]:checked').value;
+        const provider = document.querySelector('input[name="provider"]:checked');
+        
+        paymentDetails.style.display = 'block';
+        
+        if (category === 'mno') {
+            paymentDetails.innerHTML = `
+                <div class="mb-3">
+                    <label class="form-label">Mobile Number</label>
+                    <input type="tel" class="form-control" name="account_number" 
+                           placeholder="255XXXXXXXXX" required pattern="255[0-9]{9}">
+                    <div class="form-text">Enter your mobile number starting with 255</div>
+                </div>
+            `;
+        } else if (category === 'bank') {
+            paymentDetails.innerHTML = `
+                <div class="mb-3">
+                    <label class="form-label">Bank OTP</label>
+                    <input type="text" class="form-control" name="otp" 
+                           placeholder="Enter OTP" required>
+                    <div class="form-text">
+                        For CRDB: Dial *150*03#, press 7, then 5<br>
+                        For NMB: Dial *150*66#, press 8, then 5
+                    </div>
+                </div>
+            `;
+        }
+        
+        submitBtn.disabled = false;
+    }
+
+    // Handle form submission
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(form);
+        if (!formData.get('amount') || !formData.get('provider')) {
+            alert('Please complete all required fields');
+            return;
+        }
+
+        submitBtn.disabled = true;
+        processingMsg.style.display = 'block';
+
+        fetch("{% url 'donations:initiate' %}", {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': document.querySelector('[name="csrfmiddlewaretoken"]').value
+            },
+            credentials: 'same-origin'
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (!data.success) throw new Error(data.error);
+            
+            if (data.checkout_url) {
+                window.location.href = data.checkout_url;
+            } else {
+                processingMsg.innerHTML = `
+                    <h5>Payment Initiated</h5>
+                    <p>${data.message || 'Please complete the payment on your device.'}</p>
+                    <small>Reference: ${data.external_id}</small>
+                `;
+                // Start polling payment status
+                pollPaymentStatus(data.external_id);
+            }
+        })
+        .catch(error => {
+            processingMsg.className = 'alert alert-danger mt-3';
+            processingMsg.textContent = error.message;
+            submitBtn.disabled = false;
+        });
+    });
+
+    function pollPaymentStatus(ref) {
+        const interval = setInterval(() => {
+            fetch(`{% url 'donations:status' %}?ref=${ref}`)
+                .then(r => r.json())
+                .then(data => {
+                    if (data.status === 'completed') {
+                        window.location.href = `{% url 'donations:success' %}?ref=${ref}`;
+                    } else if (data.status === 'failed') {
+                        clearInterval(interval);
+                        processingMsg.className = 'alert alert-danger mt-3';
+                        processingMsg.textContent = 'Payment failed';
+                        submitBtn.disabled = false;
+                    }
+                })
+                .catch(() => {
+                    clearInterval(interval);
+                    processingMsg.className = 'alert alert-danger mt-3';
+                    processingMsg.textContent = 'Error checking payment status';
+                    submitBtn.disabled = false;
+                });
+        }, 3000);
+
+        // Stop polling after 3 minutes
+        setTimeout(() => clearInterval(interval), 180000);
+    }
+
+    // Step navigation
+    document.getElementById('to-payment-step').addEventListener('click', function() {
+        const amountInputs = document.querySelectorAll('input[name="amount"], input[name="currency"]');
+        let valid = true;
+        
+        amountInputs.forEach(input => {
+            if (!input.value) {
+                valid = false;
+                input.classList.add('is-invalid');
+            } else {
+                input.classList.remove('is-invalid');
+            }
+        });
+        
+        if (!valid) {
+            alert('Please enter a valid amount');
+            return;
+        }
+
+        // Set amount in hidden input
+        const customAmount = document.querySelector('input[name="amount"]');
+        const selectedPreset = document.querySelector('.amount-preset.active');
+        if (selectedPreset) {
+            customAmount.value = selectedPreset.getAttribute('data-amount');
+        }
+
+        // Handle support RHCI checkbox
+        const supportRhci = document.getElementById('support-rhci');
+        if (supportRhci.checked) {
+            const amount = parseFloat(customAmount.value) || 0;
+            customAmount.value = (amount * 1.1).toFixed(2);
+        }
+
+        // Update summary
+        document.getElementById('summary-amount').textContent = `$${customAmount.value}`;
+        document.getElementById('summary-support-amount').textContent = `$${(customAmount.value * 0.1).toFixed(2)}`;
+        document.getElementById('summary-total').textContent = `$${(parseFloat(customAmount.value) + (parseFloat(customAmount.value) * 0.1)).toFixed(2)}`;
+        
+        // Switch to payment step
+        document.getElementById('amount-step').style.display = 'none';
+        document.getElementById('payment-step').style.display = 'block';
+        document.getElementById('step-amount').classList.remove('active');
+        document.getElementById('step-payment').classList.add('active');
+    });
+
+    document.getElementById('back-to-amount').addEventListener('click', function() {
+        document.getElementById('payment-step').style.display = 'none';
+        document.getElementById('amount-step').style.display = 'block';
+        document.getElementById('step-payment').classList.remove('active');
+        document.getElementById('step-amount').classList.add('active');
+    });
+
+    document.getElementById('to-details-step').addEventListener('click', function() {
+        const selectedProvider = document.querySelector('input[name="provider"]:checked');
+        if (!selectedProvider) {
+            alert('Please select a provider');
+            return;
+        }
+
+        // Show provider logo and name in summary
+        const providerName = selectedProvider.dataset.provider;
+        document.getElementById('summary-provider').textContent = providerName;
+
+        // Switch to details step
+        document.getElementById('payment-step').style.display = 'none';
+        document.getElementById('details-step').style.display = 'block';
+        document.getElementById('step-payment').classList.remove('active');
+        document.getElementById('step-details').classList.add('active');
+    });
+
+    // Amount preset selection
+    document.querySelectorAll('.amount-preset').forEach(div => {
+        div.addEventListener('click', function() {
+            document.querySelectorAll('.amount-preset').forEach(d => d.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+});
+</script>

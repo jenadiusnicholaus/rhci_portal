@@ -1,0 +1,253 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Donations | RHCI Donor Portal{% endblock %}
+
+{% block header_title %}My Donations{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-center">
+      <h5 class="card-title mb-0">All Donations</h5>
+      <div class="d-flex gap-2">
+        <button class="btn btn-outline-primary btn-sm">
+          <i class="fas fa-filter me-1"></i> Filter
+        </button>
+        <button class="btn btn-outline-primary btn-sm">
+          <i class="fas fa-download me-1"></i> Export
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Patient</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>#DON-001</td>
+            <td>Oct 15, 2025</td>
+            <td>$250.00</td>
+            <td>
+              <div class="d-flex align-items-center">
+                <img src="{% static 'images/patient-placeholder.jpg' %}" alt="Patient" class="patient-avatar me-2">
+                <span>Ahmed M. - Cleft Palate</span>
+              </div>
+            </td>
+            <td><span class="badge bg-success">Completed</span></td>
+            <td>
+              <div class="dropdown">
+                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                  Actions
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#"><i class="fas fa-receipt me-2"></i>View Receipt</a></li>
+                  <li><a class="dropdown-item" href="#"><i class="fas fa-user-injured me-2"></i>View Patient</a></li>
+                  <li><a class="dropdown-item" href="#"><i class="fas fa-heart me-2"></i>Donate Again</a></li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>#DON-002</td>
+            <td>Sep 28, 2025</td>
+            <td>$150.00</td>
+            <td>
+              <div class="d-flex align-items-center">
+                <img src="{% static 'images/patient-placeholder.jpg' %}" alt="Patient" class="patient-avatar me-2">
+                <span>Maria J. - Clubfoot</span>
+              </div>
+            </td>
+            <td><span class="badge bg-success">Completed</span></td>
+            <td>
+              <div class="dropdown">
+                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                  Actions
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#"><i class="fas fa-receipt me-2"></i>View Receipt</a></li>
+                  <li><a class="dropdown-item" href="#"><i class="fas fa-user-injured me-2"></i>View Patient</a></li>
+                  <li><a class="dropdown-item" href="#"><i class="fas fa-heart me-2"></i>Donate Again</a></li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>#DON-003</td>
+            <td>Sep 15, 2025</td>
+            <td>$100.00</td>
+            <td>
+              <div class="d-flex align-items-center">
+                <img src="{% static 'images/patient-placeholder.jpg' %}" alt="Patient" class="patient-avatar me-2">
+                <span>Daniel K. - Burns</span>
+              </div>
+            </td>
+            <td><span class="badge bg-success">Completed</span></td>
+            <td>
+              <div class="dropdown">
+                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                  Actions
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#"><i class="fas fa-receipt me-2"></i>View Receipt</a></li>
+                  <li><a class="dropdown-item" href="#"><i class="fas fa-user-injured me-2"></i>View Patient</a></li>
+                  <li><a class="dropdown-item" href="#"><i class="fas fa-heart me-2"></i>Donate Again</a></li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card-footer">
+    <nav>
+      <ul class="pagination justify-content-center mb-0">
+        <li class="page-item disabled">
+          <a class="page-link" href="#" tabindex="-1"><i class="fas fa-chevron-left"></i></a>
+        </li>
+        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+          <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<div class="row mt-4">
+  <div class="col-md-6 mb-4">
+    <div class="card h-100">
+      <div class="card-header">
+        <h5 class="card-title">Monthly Donation Summary</h5>
+      </div>
+      <div class="card-body">
+        <canvas id="donationChart" width="100%" height="250"></canvas>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-6 mb-4">
+    <div class="card h-100">
+      <div class="card-header">
+        <h5 class="card-title">Donation Statistics</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-6 mb-4">
+            <div class="stat-small">
+              <div class="stat-label">Total Donations</div>
+              <div class="stat-value text-primary">$500.00</div>
+              <div class="stat-change text-success"><i class="fas fa-arrow-up me-1"></i>15% from last month</div>
+            </div>
+          </div>
+          <div class="col-6 mb-4">
+            <div class="stat-small">
+              <div class="stat-label">Average Donation</div>
+              <div class="stat-value text-primary">$166.67</div>
+              <div class="stat-change text-success"><i class="fas fa-arrow-up me-1"></i>8% from last month</div>
+            </div>
+          </div>
+          <div class="col-6 mb-4">
+            <div class="stat-small">
+              <div class="stat-label">Donation Count</div>
+              <div class="stat-value text-primary">3</div>
+              <div class="stat-change text-danger"><i class="fas fa-arrow-down me-1"></i>1 less than last month</div>
+            </div>
+          </div>
+          <div class="col-6 mb-4">
+            <div class="stat-small">
+              <div class="stat-label">Impact Score</div>
+              <div class="stat-value text-primary">87</div>
+              <div class="stat-change text-success"><i class="fas fa-arrow-up me-1"></i>12 points increase</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  .patient-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .stat-small {
+    padding: 10px;
+  }
+  
+  .stat-label {
+    font-size: 0.875rem;
+    color: var(--gray);
+    margin-bottom: 5px;
+  }
+  
+  .stat-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+  
+  .stat-change {
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('donationChart').getContext('2d');
+    const donationChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+        datasets: [{
+          label: 'Donation Amount ($)',
+          data: [50, 120, 80, 160, 200, 500],
+          backgroundColor: 'rgba(58, 124, 165, 0.6)',
+          borderColor: '#3a7ca5',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              drawBorder: false
+            }
+          },
+          x: {
+            grid: {
+              display: false
+            }
+          }
+        }
+      }
+    });
+  });
+</script>
+{% endblock %}

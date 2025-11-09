@@ -1,0 +1,70 @@
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <div class="logo">
+            <img src="{% static 'images/logo.jpg' %}" alt="RHCI Logo">
+        </div>
+        <h2>RHCI</h2>
+    </div>
+
+    <div class="sidebar-content">
+        <nav class="sidebar-menu">
+            <ul>
+                <li class="menu-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+                    <a href="{% url 'donor:dashboard' %}">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                
+                <li class="menu-item {% if 'donations' in request.path %}active{% endif %}">
+                    <a href="{% url 'donor:donations_list' %}">
+                        <i class="fas fa-hand-holding-heart"></i>
+                        <span>My Donations</span>
+                    </a>
+                </li>
+                
+                <li class="menu-item {% if 'patients' in request.path %}active{% endif %}">
+                    <a href="{% url 'donor:patients_list' %}">
+                        <i class="fas fa-user-injured"></i>
+                        <span>Patients</span>
+                    </a>
+                </li>
+                
+                <li class="menu-item {% if 'treatments' in request.path %}active{% endif %}">
+                    <a href="{% url 'donor:treatments_list' %}">
+                        <i class="fas fa-notes-medical"></i>
+                        <span>Treatment Records</span>
+                    </a>
+                </li>
+                
+                <li class="menu-item {% if 'reports' in request.path %}active{% endif %}">
+                    <a href="{% url 'donor:reports_list' %}">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Reports</span>
+                    </a>
+                </li>
+                
+                <li class="menu-item {% if 'messages' in request.path %}active{% endif %}">
+                    <a href="{% url 'donor:messages' %}">
+                        <i class="fas fa-envelope"></i>
+                        <span>Messages</span>
+                        <span class="badge">5</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    
+    <div class="sidebar-footer">
+        <div class="donation-button">
+            <a href="{% url 'donor:donations_create' %}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Make a Donation
+            </a>
+        </div>
+        <div class="sidebar-collapse">
+            <button id="collapse-sidebar">
+                <i class="fas fa-angle-left"></i>
+            </button>
+        </div>
+    </div>
+</aside>

@@ -1,0 +1,275 @@
+{% extends 'donations/base.html' %}
+{% load static %}
+
+{% block title %}Payments | RHCI Donor Portal{% endblock %}
+
+{% block header_title %}Payments{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+  <!-- Stats Cards -->
+  <div class="col-lg-4 mb-4">
+    <div class="card h-100">
+      <div class="card-body">
+        <div class="stat-card">
+          <div class="stat-card-info">
+            <div class="stat-card-title">Total Payments</div>
+            <div class="stat-card-value">${{ total_amount }}</div>
+          </div>
+          <div class="stat-card-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-lg-4 mb-4">
+    <div class="card h-100">
+      <div class="card-body">
+        <div class="stat-card">
+          <div class="stat-card-info">
+            <div class="stat-card-title">Pending Payments</div>
+            <div class="stat-card-value">${{ pending_amount }}</div>
+          </div>
+          <div class="stat-card-icon">
+            <i class="fas fa-clock"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-lg-4 mb-4">
+    <div class="card h-100">
+      <div class="card-body">
+        <div class="stat-card">
+          <div class="stat-card-info">
+            <div class="stat-card-title">This Month</div>
+            <div class="stat-card-value">$350.00</div>
+          </div>
+          <div class="stat-card-icon">
+            <i class="fas fa-calendar-alt"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Payments Tabs -->
+<div class="card">
+  <div class="card-header">
+    <ul class="nav nav-tabs card-header-tabs" id="paymentsTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="invoices-tab" data-bs-toggle="tab" data-bs-target="#invoices" type="button" role="tab" aria-controls="invoices" aria-selected="true">Invoices</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="receipts-tab" data-bs-toggle="tab" data-bs-target="#receipts" type="button" role="tab" aria-controls="receipts" aria-selected="false">Receipts</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="refunds-tab" data-bs-toggle="tab" data-bs-target="#refunds" type="button" role="tab" aria-controls="refunds" aria-selected="false">Refunds</button>
+      </li>
+    </ul>
+  </div>
+  
+  <div class="card-body">
+    <div class="tab-content" id="paymentsTabContent">
+      <!-- Invoices Tab -->
+      <div class="tab-pane fade show active" id="invoices" role="tabpanel" aria-labelledby="invoices-tab">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Invoice #</th>
+                <th>Patient</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>INV-001</td>
+                <td>Ahmed M.</td>
+                <td>Oct 10, 2025</td>
+                <td>$250.00</td>
+                <td><span class="badge bg-success">Paid</span></td>
+                <td>
+                  <div class="btn-group btn-group-sm">
+                    <a href="#" class="btn btn-outline-primary"><i class="fas fa-eye"></i></a>
+                    <a href="#" class="btn btn-outline-primary"><i class="fas fa-download"></i></a>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>INV-002</td>
+                <td>Maria J.</td>
+                <td>Sep 25, 2025</td>
+                <td>$150.00</td>
+                <td><span class="badge bg-success">Paid</span></td>
+                <td>
+                  <div class="btn-group btn-group-sm">
+                    <a href="#" class="btn btn-outline-primary"><i class="fas fa-eye"></i></a>
+                    <a href="#" class="btn btn-outline-primary"><i class="fas fa-download"></i></a>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>INV-003</td>
+                <td>Daniel K.</td>
+                <td>Sep 15, 2025</td>
+                <td>$100.00</td>
+                <td><span class="badge bg-success">Paid</span></td>
+                <td>
+                  <div class="btn-group btn-group-sm">
+                    <a href="#" class="btn btn-outline-primary"><i class="fas fa-eye"></i></a>
+                    <a href="#" class="btn btn-outline-primary"><i class="fas fa-download"></i></a>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Receipts Tab -->
+      <div class="tab-pane fade" id="receipts" role="tabpanel" aria-labelledby="receipts-tab">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Receipt #</th>
+                <th>Invoice #</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Payment Method</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>RCP-001</td>
+                <td>INV-001</td>
+                <td>Oct 15, 2025</td>
+                <td>$250.00</td>
+                <td>Mobile Money</td>
+                <td>
+                  <div class="btn-group btn-group-sm">
+                    <a href="#" class="btn btn-outline-primary"><i class="fas fa-eye"></i></a>
+                    <a href="#" class="btn btn-outline-primary"><i class="fas fa-download"></i></a>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>RCP-002</td>
+                <td>INV-002</td>
+                <td>Sep 28, 2025</td>
+                <td>$150.00</td>
+                <td>Credit Card</td>
+                <td>
+                  <div class="btn-group btn-group-sm">
+                    <a href="#" class="btn btn-outline-primary"><i class="fas fa-eye"></i></a>
+                    <a href="#" class="btn btn-outline-primary"><i class="fas fa-download"></i></a>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>RCP-003</td>
+                <td>INV-003</td>
+                <td>Sep 15, 2025</td>
+                <td>$100.00</td>
+                <td>Mobile Money</td>
+                <td>
+                  <div class="btn-group btn-group-sm">
+                    <a href="#" class="btn btn-outline-primary"><i class="fas fa-eye"></i></a>
+                    <a href="#" class="btn btn-outline-primary"><i class="fas fa-download"></i></a>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Refunds Tab -->
+      <div class="tab-pane fade" id="refunds" role="tabpanel" aria-labelledby="refunds-tab">
+        <div class="empty-state text-center py-5">
+          <div class="empty-state-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <h4>No Refunds</h4>
+          <p class="text-muted">You don't have any refund requests or processed refunds.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  .stat-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .stat-card-info {
+    flex: 1;
+  }
+  
+  .stat-card-title {
+    font-size: 0.875rem;
+    color: var(--gray);
+    margin-bottom: 0.5rem;
+  }
+  
+  .stat-card-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary);
+  }
+  
+  .stat-card-icon {
+    width: 48px;
+    height: 48px;
+    background-color: var(--primary-light);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+  }
+  
+  .nav-tabs .nav-link {
+    color: var(--gray);
+    border: none;
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+  }
+  
+  .nav-tabs .nav-link.active {
+    color: var(--primary);
+    border-bottom: 2px solid var(--primary);
+    background-color: transparent;
+  }
+  
+  .empty-state {
+    padding: 2rem;
+  }
+  
+  .empty-state-icon {
+    font-size: 3rem;
+    color: var(--gray-light);
+    margin-bottom: 1rem;
+  }
+  
+  .empty-state h4 {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+</style>
+{% endblock %}

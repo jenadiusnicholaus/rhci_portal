@@ -1,0 +1,387 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-body p-4">
+                    <!-- Patient Info with Circular Progress -->
+                    <div class="text-center mb-4">
+                        <div class="position-relative d-inline-block">
+                            <!-- Circular Progress Bar -->
+                            <div class="circular-progress" 
+                                 data-percentage="{{ case.percent_raised }}"
+                                 style="width: 200px; height: 200px;">
+                                <!-- Patient Photo -->
+                                {% if case.patient.photo %}
+                                    <img src="{{ case.patient.photo.url }}" 
+                                         alt="{{ case.patient.first_name }}"
+                                         class="rounded-circle patient-photo">
+                                {% elif case.case_image %}
+                                    <img src="{{ case.case_image.url }}" 
+                                         alt="{{ case.patient.first_name }}"
+                                         class="rounded-circle patient-photo">
+                                {% else %}
+                                    <img src="{% static 'images/default_patient.jpg' %}" 
+                                         alt="No photo"
+                                         class="rounded-circle patient-photo">
+                                {% endif %}
+                            </div>
+                            <!-- Progress Text -->
+                            <div class="progress-text">
+                                {{ case.percent_raised }}%
+                            </div>
+                        </div>
+                        
+                        <h4 class="mt-3">Help {{ case.patient.first_name }}</h4>
+                        <p class="text-muted">{{ case.diagnosis }}</p>
+                        <div class="text-center mb-3">
+                            <span class="h5">{{ case.amount_raised }} {{ case.currency }}</span>
+                            <span class="text-muted">raised of</span>
+                            <span class="h5">{{ case.target_amount }} {{ case.currency }}</span>
+                        </div>
+                    </div>
+
+                    <form id="donation-form" method="post">
+                        {% csrf_token %}
+                        
+                        <!-- Donor Info -->
+                        <div class="mb-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="anonymous" name="anonymous">
+                                <label class="form-check-label" for="anonymous">
+                                    Donate Anonymously
+                                </label>
+                            </div>
+                            <div id="donor-fields">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" name="first_name" id="first_name">
+                                            <label for="first_name">First Name</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" name="last_name" id="last_name">
+                                            <label for="last_name">Last Name</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <input type="email" class="form-control" name="email" id="email">
+                                            <label for="email">Email (for donation receipt)</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Amount Selection -->
+                        <div class="mb-4">
+                            <label class="form-label">Select Amount</label>
+                            <div class="d-flex gap-2 mb-3">
+                                <button type="button" class="btn btn-outline-primary flex-grow-1 amount-btn" data-amount="10">$10</button>
+                                <button type="button" class="btn btn-outline-primary flex-grow-1 amount-btn" data-amount="50">$50</button>
+                                <button type="button" class="btn btn-outline-primary flex-grow-1 amount-btn" data-amount="100">$100</button>
+                                <button type="button" class="btn btn-outline-primary flex-grow-1 amount-btn" data-amount="remaining">Fund All</button>
+                            </div>
+                            <div class="input-group">
+                                <input type="number" name="amount" id="amount" class="form-control form-control-lg" 
+                                       placeholder="Enter custom amount" required min="1">
+                                <select name="currency" class="form-select" style="max-width: 120px">
+                                    <option value="USD">USD</option>
+                                    <option value="TZS">TZS</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Support RHCI -->
+                        <div class="mb-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="support_rhci" name="support_rhci">
+                                <label class="form-check-label" for="support_rhci">
+                                    Add 10% to support RHCI's work
+                                </label>
+                                <div class="form-text">This helps us continue supporting more children</div>
+                            </div>
+                            <div id="total-amount" class="mt-2 text-end" style="display: none;">
+                                Total: <strong>$0.00</strong>
+                            </div>
+                        </div>
+
+                        <!-- Payment Methods -->
+                        <div class="mb-4">
+                            <label class="form-label">Payment Method</label>
+                            <div class="row g-3">
+                                <!-- Mobile Money -->
+                                <div class="col-6 col-md-3">
+                                    <div class="payment-method-card" data-method="mobile">
+                                        <img src="{% static 'img/mobile-money.png' %}" alt="Mobile Money">
+                                        <span>Mobile Money</span>
+                                    </div>
+                                </div>
+                                <!-- Bank/Card -->
+                                <div class="col-6 col-md-3">
+                                    <div class="payment-method-card" data-method="card">
+                                        <img src="{% static 'img/card.png' %}" alt="Card Payment">
+                                        <span>Card/Bank</span>
+                                    </div>
+                                </div>
+                                <!-- PayPal -->
+                                <div class="col-6 col-md-3">
+                                    <div class="payment-method-card disabled" data-method="paypal">
+                                        <img src="{% static 'img/paypal.png' %}" alt="PayPal">
+                                        <span>Coming Soon</span>
+                                    </div>
+                                </div>
+                                <!-- Bitcoin -->
+                                <div class="col-6 col-md-3">
+                                    <div class="payment-method-card disabled" data-method="bitcoin">
+                                        <img src="{% static 'img/bitcoin.png' %}" alt="Bitcoin">
+                                        <span>Coming Soon</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dynamic Payment Details -->
+                        <div id="payment-details" class="mb-4" style="display:none"></div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg" disabled>
+                                Complete Donation
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add CSS -->
+<style>
+.payment-method-card {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.payment-method-card:hover:not(.disabled) {
+    border-color: #0d6efd;
+    background-color: #f8f9fa;
+}
+
+.payment-method-card.selected {
+    border-color: #0d6efd;
+    background-color: #e7f1ff;
+}
+
+.payment-method-card.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.payment-method-card img {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 0.5rem;
+}
+
+.payment-method-card span {
+    display: block;
+    font-size: 0.875rem;
+}
+
+/* Add new styles for circular progress */
+.circular-progress {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.circular-progress::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: conic-gradient(
+        #28a745 calc(var(--percentage) * 1%),
+        #e9ecef calc(var(--percentage) * 1%)
+    );
+}
+
+.patient-photo {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border: 5px solid white;
+    z-index: 1;
+    position: relative;
+}
+
+.progress-text {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: #28a745;
+    color: white;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    border: 3px solid white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+</style>
+
+<!-- Add JavaScript -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('donation-form');
+    const amountInput = document.getElementById('amount');
+    const anonymousCheck = document.getElementById('anonymous');
+    const donorFields = document.getElementById('donor-fields');
+    const supportCheck = document.getElementById('support_rhci');
+    const totalAmount = document.getElementById('total-amount');
+    const paymentDetails = document.getElementById('payment-details');
+    const submitBtn = form.querySelector('button[type="submit"]');
+    
+    // Remaining amount from case
+    const remainingAmount = {{ case.target_amount }} - {{ case.amount_raised }};
+
+    // Handle amount buttons
+    document.querySelectorAll('.amount-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const amount = this.dataset.amount;
+            if (amount === 'remaining') {
+                amountInput.value = remainingAmount;
+            } else {
+                amountInput.value = amount;
+            }
+            updateTotal();
+        });
+    });
+
+    // Handle anonymous toggle
+    anonymousCheck.addEventListener('change', function() {
+        donorFields.style.display = this.checked ? 'none' : 'block';
+        const inputs = donorFields.querySelectorAll('input');
+        inputs.forEach(input => input.required = !this.checked);
+    });
+
+    // Handle support RHCI toggle and amount calculations
+    function updateTotal() {
+        const baseAmount = parseFloat(amountInput.value) || 0;
+        const support = supportCheck.checked ? baseAmount * 0.1 : 0;
+        const total = baseAmount + support;
+        
+        if (total > 0) {
+            totalAmount.style.display = 'block';
+            totalAmount.querySelector('strong').textContent = 
+                `$${total.toFixed(2)} (${baseAmount.toFixed(2)} + ${support.toFixed(2)})`;
+        } else {
+            totalAmount.style.display = 'none';
+        }
+    }
+
+    amountInput.addEventListener('input', updateTotal);
+    supportCheck.addEventListener('change', updateTotal);
+
+    // Handle payment method selection
+    document.querySelectorAll('.payment-method-card:not(.disabled)').forEach(card => {
+        card.addEventListener('click', function() {
+            document.querySelectorAll('.payment-method-card').forEach(c => 
+                c.classList.remove('selected'));
+            this.classList.add('selected');
+            
+            const method = this.dataset.method;
+            showPaymentDetails(method);
+            submitBtn.disabled = false;
+        });
+    });
+
+    function showPaymentDetails(method) {
+        paymentDetails.style.display = 'block';
+        
+        if (method === 'mobile') {
+            paymentDetails.innerHTML = `
+                <div class="btn-group w-100 mb-3">
+                    <input type="radio" class="btn-check" name="provider" id="mpesa" value="mpesa" required>
+                    <label class="btn btn-outline-primary" for="mpesa">M-Pesa</label>
+                    <input type="radio" class="btn-check" name="provider" id="tigopesa" value="tigopesa">
+                    <label class="btn btn-outline-primary" for="tigopesa">Tigo Pesa</label>
+                    <input type="radio" class="btn-check" name="provider" id="airtelmoney" value="airtelmoney">
+                    <label class="btn btn-outline-primary" for="airtelmoney">Airtel Money</label>
+                </div>
+                <div class="form-floating">
+                    <input type="tel" class="form-control" name="phone" id="phone" 
+                           placeholder="255XXXXXXXXX" required>
+                    <label for="phone">Mobile Number (255XXXXXXXXX)</label>
+                </div>
+            `;
+        } else if (method === 'card') {
+            paymentDetails.innerHTML = `
+                <div class="btn-group w-100 mb-3">
+                    <input type="radio" class="btn-check" name="provider" id="crdb" value="crdb" required>
+                    <label class="btn btn-outline-primary" for="crdb">CRDB Bank</label>
+                    <input type="radio" class="btn-check" name="provider" id="nmb" value="nmb">
+                    <label class="btn btn-outline-primary" for="nmb">NMB Bank</label>
+                </div>
+                <div id="bank-details"></div>
+            `;
+            
+            // Add bank selection handler
+            document.querySelectorAll('input[name="provider"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const bankDetails = document.getElementById('bank-details');
+                    bankDetails.innerHTML = `
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="otp" id="otp" required>
+                            <label for="otp">Bank OTP</label>
+                            <div class="form-text">
+                                ${this.value === 'crdb' ? 
+                                'Dial *150*03#, select 7, then 5' : 
+                                'Dial *150*66#, select 8, then 5'}
+                            </div>
+                        </div>
+                    `;
+                });
+            });
+        }
+    }
+
+    // Form submission
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        // Add loading state
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `
+            <span class="spinner-border spinner-border-sm me-2"></span>
+            Processing...
+        `;
+        // Submit form
+        this.submit();
+    });
+
+    // Initialize circular progress
+    const progressElement = document.querySelector('.circular-progress');
+    if (progressElement) {
+        const percentage = progressElement.dataset.percentage || 0;
+        progressElement.style.setProperty('--percentage', percentage);
+    }
+});
+</script>
+{% endblock %}

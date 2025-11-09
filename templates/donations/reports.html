@@ -1,0 +1,408 @@
+{% extends 'donations/base.html' %}
+{% load static %}
+
+{% block title %}Impact Reports | RHCI Donor Dashboard{% endblock %}
+{% block header_title %}Impact Reports{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+  <!-- Impact Overview -->
+  <div class="col-12 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <div class="row align-items-center">
+          <div class="col-lg-3 text-center text-lg-start">
+            <div class="impact-icon-large">
+              <i class="fas fa-heart-pulse"></i>
+            </div>
+          </div>
+          <div class="col-lg-9">
+            <h2 class="impact-title">Your Giving Impact</h2>
+            <p class="impact-text">
+              Through your generous donations, you've helped support <strong>{{ patients_supported|default:"0" }} patients</strong> 
+              on their healing journey. Your contributions have covered <strong>{{ treatments_covered|default:"0" }} treatments</strong> 
+              and provided <strong>{{ total_days_care|default:"0" }} days</strong> of medical care. Thank you for making a difference!
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Impact Statistics -->
+  <div class="col-md-4 mb-4">
+    <div class="card h-100">
+      <div class="card-body">
+        <h5 class="card-title mb-3">Donation Distribution</h5>
+        <div class="chart-container">
+          <canvas id="donationDistributionChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-4 mb-4">
+    <div class="card h-100">
+      <div class="card-body">
+        <h5 class="card-title mb-3">Patient Recovery Progress</h5>
+        <div class="chart-container">
+          <canvas id="patientProgressChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-4 mb-4">
+    <div class="card h-100">
+      <div class="card-body">
+        <h5 class="card-title mb-3">Monthly Contributions</h5>
+        <div class="chart-container">
+          <canvas id="monthlyContributionsChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Impact Stories -->
+<div class="row mb-4">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title">Impact Stories</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          {% if impact_stories %}
+            {% for story in impact_stories %}
+              <div class="col-lg-4 col-md-6 mb-4">
+                <div class="impact-story-card">
+                  <div class="impact-story-img">
+                    <img src="{{ story.image_url }}" alt="{{ story.patient_name }}">
+                  </div>
+                  <div class="impact-story-content">
+                    <h5>{{ story.title }}</h5>
+                    <p class="impact-story-meta">
+                      <span><i class="fas fa-user-injured me-1"></i> {{ story.patient_name }}</span>
+                      <span><i class="fas fa-calendar-alt me-1"></i> {{ story.date }}</span>
+                    </p>
+                    <p class="impact-story-text">{{ story.summary }}</p>
+                    <a href="{{ story.url }}" class="btn btn-sm btn-outline-primary">Read Full Story</a>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="col-12">
+              <div class="empty-state text-center py-5">
+                <img src="{% static 'images/empty-stories.svg' %}" alt="No impact stories" class="empty-state-img mb-4">
+                <h4>Impact stories coming soon</h4>
+                <p class="text-muted">We're collecting stories about how your donations have made a difference</p>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Treatment Reports -->
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="card-title">Treatment Reports</h5>
+        <div class="input-group" style="width: 250px;">
+          <span class="input-group-text"><i class="fas fa-filter"></i></span>
+          <select class="form-select" id="reportFilterSelect">
+            <option value="all">All Reports</option>
+            <option value="recent">Recent Reports</option>
+            <option value="completed">Completed Treatments</option>
+          </select>
+        </div>
+      </div>
+      <div class="card-body">
+        {% if treatment_reports %}
+          <div class="table-responsive">
+            <table class="table align-middle">
+              <thead>
+                <tr>
+                  <th>Patient</th>
+                  <th>Treatment Type</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Status</th>
+                  <th>Report</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for report in treatment_reports %}
+                  <tr>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        {% if report.patient_photo %}
+                          <img src="{{ report.patient_photo.url }}" alt="{{ report.patient_name }}" class="patient-avatar me-2">
+                        {% else %}
+                          <img src="{% static 'images/default-patient.png' %}" alt="{{ report.patient_name }}" class="patient-avatar me-2">
+                        {% endif %}
+                        <div>{{ report.patient_name }}</div>
+                      </div>
+                    </td>
+                    <td>{{ report.treatment_type }}</td>
+                    <td>{{ report.start_date }}</td>
+                    <td>{{ report.end_date|default:"Ongoing" }}</td>
+                    <td>
+                      <span class="treatment-status {{ report.status|lower }}">{{ report.status }}</span>
+                    </td>
+                    <td>
+                      <a href="{{ report.url }}" class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-file-pdf me-1"></i> View Report
+                      </a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% else %}
+          <div class="empty-state text-center py-5">
+            <i class="fas fa-file-medical fa-3x text-muted mb-3"></i>
+            <h4>No treatment reports available</h4>
+            <p class="text-muted">Reports will appear here as treatments progress</p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  .impact-icon-large {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, rgba(43, 182, 115, 0.2), rgba(16, 42, 67, 0.1));
+    color: var(--primary);
+    border-radius: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+  }
+  
+  .impact-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--secondary);
+  }
+  
+  .impact-text {
+    font-size: 1.1rem;
+    color: var(--gray);
+  }
+  
+  .chart-container {
+    position: relative;
+    height: 220px;
+  }
+  
+  .patient-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .empty-state-img {
+    max-width: 200px;
+    opacity: 0.7;
+  }
+  
+  /* Impact Stories */
+  .impact-story-card {
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .impact-story-img {
+    height: 180px;
+    overflow: hidden;
+  }
+  
+  .impact-story-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+  }
+  
+  .impact-story-card:hover .impact-story-img img {
+    transform: scale(1.05);
+  }
+  
+  .impact-story-content {
+    padding: 1.25rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .impact-story-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    color: var(--gray);
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+  }
+  
+  .impact-story-text {
+    color: var(--gray);
+    flex-grow: 1;
+    margin-bottom: 1rem;
+  }
+  
+  /* Treatment status */
+  .treatment-status {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+  
+  .treatment-status.completed {
+    background-color: rgba(46, 204, 113, 0.1);
+    color: #2ecc71;
+  }
+  
+  .treatment-status.ongoing {
+    background-color: rgba(52, 152, 219, 0.1);
+    color: #3498db;
+  }
+  
+  .treatment-status.scheduled {
+    background-color: rgba(241, 196, 15, 0.1);
+    color: #f1c40f;
+  }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Set Chart.js defaults
+    Chart.defaults.font.family = "'Segoe UI', 'Helvetica Neue', Arial, sans-serif";
+    Chart.defaults.color = '#718096';
+    
+    // Donation Distribution Chart
+    const distributionCtx = document.getElementById('donationDistributionChart').getContext('2d');
+    new Chart(distributionCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Medications', 'Surgery', 'Hospital Stay', 'Rehabilitation'],
+        datasets: [{
+          data: [30, 40, 20, 10],
+          backgroundColor: [
+            '#2bb673', // Primary
+            '#3498db', // Blue
+            '#9b59b6', // Purple
+            '#e67e22', // Orange
+          ],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              boxWidth: 12,
+              padding: 15
+            }
+          }
+        },
+        cutout: '70%'
+      }
+    });
+    
+    // Patient Progress Chart
+    const progressCtx = document.getElementById('patientProgressChart').getContext('2d');
+    new Chart(progressCtx, {
+      type: 'bar',
+      data: {
+        labels: ['John D.', 'Sarah M.', 'David K.', 'Emily R.'],
+        datasets: [{
+          label: 'Recovery Progress',
+          data: [85, 65, 40, 95],
+          backgroundColor: '#2bb673',
+          borderRadius: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100,
+            ticks: {
+              callback: function(value) {
+                return value + '%';
+              }
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          }
+        }
+      }
+    });
+    
+    // Monthly Contributions Chart
+    const contributionsCtx = document.getElementById('monthlyContributionsChart').getContext('2d');
+    new Chart(contributionsCtx, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [{
+          label: 'Donations',
+          data: [50000, 30000, 60000, 45000, 70000, 65000],
+          borderColor: '#2bb673',
+          backgroundColor: 'rgba(43, 182, 115, 0.1)',
+          fill: true,
+          tension: 0.4,
+          borderWidth: 2,
+          pointBackgroundColor: '#2bb673'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: function(value) {
+                return value.toLocaleString() + ' TZS';
+              }
+            }
+          }
+        }
+      }
+    });
+  });
+</script>
+{% endblock %}

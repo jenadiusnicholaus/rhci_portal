@@ -1,0 +1,472 @@
+{% extends 'donations/base.html' %}
+{% load static %}
+
+{% block title %}Treatment Plans | RHCI Donor Portal{% endblock %}
+
+{% block header_title %}Treatment Plans{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="card-title mb-0">Active Treatment Plans</h5>
+        <div class="dropdown">
+          <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-filter me-1"></i> Filter
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="filterDropdown">
+            <li><a class="dropdown-item" href="#">All Plans</a></li>
+            <li><a class="dropdown-item" href="#">Active Plans</a></li>
+            <li><a class="dropdown-item" href="#">Completed Plans</a></li>
+            <li><a class="dropdown-item" href="#">Upcoming Plans</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead>
+              <tr>
+                <th>Patient</th>
+                <th>Condition</th>
+                <th>Treatment Type</th>
+                <th>Status</th>
+                <th>Progress</th>
+                <th>Next Step</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Treatment Plan 1 -->
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div class="patient-avatar me-2">
+                      <img src="{% static 'images/patient-placeholder.jpg' %}" alt="Ahmed M.">
+                    </div>
+                    <div>Ahmed M.</div>
+                  </div>
+                </td>
+                <td>Cleft Palate</td>
+                <td>Surgical Repair</td>
+                <td><span class="badge bg-primary">In Progress</span></td>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div class="progress flex-grow-1 me-2" style="width: 100px; height: 6px;">
+                      <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <span class="fs-sm">75%</span>
+                  </div>
+                </td>
+                <td>Surgery (Oct 20, 2025)</td>
+                <td>
+                  <div class="btn-group btn-group-sm">
+                    <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#viewTreatmentModal1">
+                      <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="btn btn-outline-primary">
+                      <i class="fas fa-comments"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              
+              <!-- Treatment Plan 2 -->
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div class="patient-avatar me-2">
+                      <img src="{% static 'images/patient-placeholder.jpg' %}" alt="Maria J.">
+                    </div>
+                    <div>Maria J.</div>
+                  </div>
+                </td>
+                <td>Clubfoot</td>
+                <td>Surgical Correction & Therapy</td>
+                <td><span class="badge bg-success">Completed</span></td>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div class="progress flex-grow-1 me-2" style="width: 100px; height: 6px;">
+                      <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <span class="fs-sm">100%</span>
+                  </div>
+                </td>
+                <td>Follow-up (Nov 15, 2025)</td>
+                <td>
+                  <div class="btn-group btn-group-sm">
+                    <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#viewTreatmentModal2">
+                      <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="btn btn-outline-primary">
+                      <i class="fas fa-comments"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              
+              <!-- Treatment Plan 3 -->
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div class="patient-avatar me-2">
+                      <img src="{% static 'images/patient-placeholder.jpg' %}" alt="Daniel K.">
+                    </div>
+                    <div>Daniel K.</div>
+                  </div>
+                </td>
+                <td>Burn Treatment</td>
+                <td>Skin Grafting</td>
+                <td><span class="badge bg-warning text-dark">Fundraising</span></td>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div class="progress flex-grow-1 me-2" style="width: 100px; height: 6px;">
+                      <div class="progress-bar bg-warning" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <span class="fs-sm">40%</span>
+                  </div>
+                </td>
+                <td>Pending Funding</td>
+                <td>
+                  <div class="btn-group btn-group-sm">
+                    <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#viewTreatmentModal3">
+                      <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="btn btn-outline-primary">
+                      <i class="fas fa-comments"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Treatment Plan Timeline -->
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title">Treatment Timeline - Ahmed M.</h5>
+      </div>
+      <div class="card-body">
+        <div class="treatment-timeline">
+          <!-- Initial Assessment -->
+          <div class="timeline-item complete">
+            <div class="timeline-point"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">Sep 5, 2025</div>
+              <div class="timeline-title">Initial Assessment</div>
+              <div class="timeline-desc">
+                <p>Medical evaluation conducted by Dr. Sarah at Muhimbili Hospital.</p>
+                <div class="timeline-tags">
+                  <span class="badge bg-light text-dark">Diagnosis</span>
+                  <span class="badge bg-light text-dark">Medical History</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Pre-Operative Care -->
+          <div class="timeline-item complete">
+            <div class="timeline-point"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">Oct 1-10, 2025</div>
+              <div class="timeline-title">Pre-Operative Care</div>
+              <div class="timeline-desc">
+                <p>Blood work, physical examination and pre-operative counseling completed.</p>
+                <div class="timeline-tags">
+                  <span class="badge bg-light text-dark">Lab Tests</span>
+                  <span class="badge bg-light text-dark">Counseling</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Surgery -->
+          <div class="timeline-item active">
+            <div class="timeline-point"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">Oct 20, 2025</div>
+              <div class="timeline-title">Cleft Palate Repair Surgery</div>
+              <div class="timeline-desc">
+                <p>Scheduled surgical procedure with Dr. Emmanuel at Muhimbili Hospital.</p>
+                <div class="timeline-tags">
+                  <span class="badge bg-primary">Main Surgery</span>
+                  <span class="badge bg-light text-dark">Hospital Stay</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Post-Operative Care -->
+          <div class="timeline-item">
+            <div class="timeline-point"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">Oct 21-27, 2025</div>
+              <div class="timeline-title">Post-Operative Care</div>
+              <div class="timeline-desc">
+                <p>Monitoring, pain management, and initial feeding instructions.</p>
+                <div class="timeline-tags">
+                  <span class="badge bg-light text-dark">Recovery</span>
+                  <span class="badge bg-light text-dark">Monitoring</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Follow-up Visit -->
+          <div class="timeline-item">
+            <div class="timeline-point"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">Nov 10, 2025</div>
+              <div class="timeline-title">First Follow-up Visit</div>
+              <div class="timeline-desc">
+                <p>Evaluation of healing progress and feeding assessment.</p>
+                <div class="timeline-tags">
+                  <span class="badge bg-light text-dark">Evaluation</span>
+                  <span class="badge bg-light text-dark">Check-up</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Speech Therapy -->
+          <div class="timeline-item">
+            <div class="timeline-point"></div>
+            <div class="timeline-content">
+              <div class="timeline-date">Dec 2025 - Mar 2026</div>
+              <div class="timeline-title">Speech Therapy Sessions</div>
+              <div class="timeline-desc">
+                <p>Weekly speech therapy sessions to improve articulation and speech patterns.</p>
+                <div class="timeline-tags">
+                  <span class="badge bg-light text-dark">Rehabilitation</span>
+                  <span class="badge bg-light text-dark">Long-term Care</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Treatment Plan View Modal -->
+<div class="modal fade" id="viewTreatmentModal1" tabindex="-1" aria-labelledby="viewTreatmentModalLabel1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="viewTreatmentModalLabel1">Treatment Plan: Ahmed M.</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <h6 class="text-muted">Patient Information</h6>
+            <div class="d-flex align-items-center mb-3">
+              <div class="patient-avatar me-3">
+                <img src="{% static 'images/patient-placeholder.jpg' %}" alt="Ahmed M." style="width: 60px; height: 60px; border-radius: 50%;">
+              </div>
+              <div>
+                <h5 class="mb-0">Ahmed Mohamed</h5>
+                <p class="text-muted mb-0">5 years old, Male</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6 mb-3">
+                <div class="text-muted small">Condition</div>
+                <div>Cleft Palate</div>
+              </div>
+              <div class="col-6 mb-3">
+                <div class="text-muted small">Case ID</div>
+                <div>#CASE-125</div>
+              </div>
+              <div class="col-6 mb-3">
+                <div class="text-muted small">Hospital</div>
+                <div>Muhimbili Hospital</div>
+              </div>
+              <div class="col-6 mb-3">
+                <div class="text-muted small">Lead Doctor</div>
+                <div>Dr. Emmanuel Mwakisunga</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <h6 class="text-muted">Treatment Summary</h6>
+            <div class="row">
+              <div class="col-6 mb-3">
+                <div class="text-muted small">Status</div>
+                <div><span class="badge bg-primary">In Progress</span></div>
+              </div>
+              <div class="col-6 mb-3">
+                <div class="text-muted small">Started On</div>
+                <div>Sep 5, 2025</div>
+              </div>
+              <div class="col-6 mb-3">
+                <div class="text-muted small">Expected Duration</div>
+                <div>6 months</div>
+              </div>
+              <div class="col-6 mb-3">
+                <div class="text-muted small">Your Contribution</div>
+                <div>$250.00</div>
+              </div>
+              <div class="col-12">
+                <div class="text-muted small mb-2">Progress</div>
+                <div class="progress mb-2" style="height: 10px;">
+                  <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div class="d-flex justify-content-between small">
+                  <div>Pre-Op</div>
+                  <div>Surgery</div>
+                  <div class="text-muted">Post-Op</div>
+                  <div class="text-muted">Recovery</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <hr>
+        
+        <h6 class="mb-3">Treatment Description</h6>
+        <p>Ahmed has been diagnosed with a cleft palate that requires surgical intervention. The treatment plan includes a comprehensive approach with pre-operative assessment, surgical repair, and post-operative care including speech therapy.</p>
+        
+        <p>The surgical repair will close the opening in the roof of the mouth using tissue from the sides of the hard palate. This will help Ahmed with eating, speaking, and reduce the risk of ear infections and hearing problems.</p>
+        
+        <h6 class="mt-4 mb-3">Expected Outcomes</h6>
+        <ul>
+          <li>Improved ability to eat and drink without nasal regurgitation</li>
+          <li>Better speech articulation and reduced nasal speech</li>
+          <li>Reduced risk of ear infections</li>
+          <li>Enhanced self-confidence and social integration</li>
+          <li>Normal facial growth and dental development</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Contact Medical Team</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  .patient-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  
+  .patient-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .fs-sm {
+    font-size: 0.75rem;
+  }
+  
+  .progress {
+    height: 6px;
+    border-radius: 3px;
+  }
+  
+  .progress-bar {
+    background-color: var(--primary-light);
+  }
+  
+  /* Treatment Timeline */
+  .treatment-timeline {
+    position: relative;
+    padding-left: 30px;
+    margin: 30px 0;
+  }
+  
+  .treatment-timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 15px;
+    width: 2px;
+    background-color: var(--gray-light);
+    z-index: 0;
+  }
+  
+  .timeline-item {
+    position: relative;
+    padding-bottom: 30px;
+  }
+  
+  .timeline-item:last-child {
+    padding-bottom: 0;
+  }
+  
+  .timeline-point {
+    position: absolute;
+    top: 0;
+    left: -30px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: white;
+    border: 2px solid var(--gray-light);
+    z-index: 1;
+  }
+  
+  .timeline-item.complete .timeline-point {
+    background-color: var(--success);
+    border-color: var(--success);
+  }
+  
+  .timeline-item.active .timeline-point {
+    background-color: white;
+    border-color: var(--primary);
+    border-width: 3px;
+  }
+  
+  .timeline-date {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--gray);
+    margin-bottom: 5px;
+  }
+  
+  .timeline-title {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--primary);
+  }
+  
+  .timeline-desc {
+    font-size: 0.875rem;
+    color: var(--gray-dark);
+  }
+  
+  .timeline-desc p {
+    margin-bottom: 8px;
+  }
+  
+  .timeline-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  
+  .timeline-tags .badge {
+    font-weight: 400;
+    font-size: 0.7rem;
+  }
+</style>
+{% endblock %}

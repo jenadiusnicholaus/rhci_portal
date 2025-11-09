@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load dict_extras %}
+
+{% block title %}{{ patient.first_name }} {{ patient.last_name }} - Patient Details{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-5">
+  <div class="card shadow-lg mb-4">
+    <!-- Patient Image with Circular Progress Bar -->
+    <div class="text-center bg-light pt-4 position-relative">
+      <div class="circular-progress-container">
+        <div class="circular-progress" data-percentage="{{ case.percent_raised|default:0 }}">
+          {% if patient.photo %}
+            <img src="{{ patient.photo.url }}" class="patient-photo" 
+                 alt="{{ patient.first_name }}">
+          {% else %}
+            <img src="{% static 'images/default_patient.jpg' %}" class="patient-photo" 
+                 alt="No photo">
+          {% endif %}
+          <!-- Progress Indicator -->
+          <div class="progress-indicator">
+            <span class="progress-percentage">{{ case.percent_raised|default:0 }}%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fundraising Status -->
+      <div class="fundraising-status mt-3">
+        <span class="h5">{{ case.amount_raised|default:0 }}</span>
+        <span class="text-muted">raised of</span>
+        <span class="h5">{{ case.target_amount }} {{ case.currency }}</span>
+      </div>
+
+      <!-- Patient Info -->
+      <h2 class="mt-4 mb-1">{{ patient.first_name }} {{ patient.last_name }}</h2>
+      <p class="text-muted mb-2">
+        <strong>Diagnosis:</strong> {{ case.diagnosis }}
+      </p>
+    </div>
+
+    <div class="card-body px-4">
+      <!-- Case Details -->
+      <div class="timeline mb-4">
+        <div class="timeline-item">
+          <div class="timeline-marker bg-primary"></div>
+          <div class="timeline-content">
+            <h4 class="mb-2">{{ case.title }}</h4>
+            <div class="mb-3">{{ case.story|linebreaks }}</div>
+            <div class="mb-2">
+              <strong>Hospital:</strong> {{ case.hospital_name }}
+            </div>
+            <div class="mb-2">
+              <strong>Doctor:</strong> {{ case.doctor_name }}
+            </div>
+            <div class="mb-2">
+              <strong>Treatment Date:</strong> {{ case.start_date|date:"M d, Y" }}
+            </div>
+            <div class="mb-2">
+              <strong>Required Amount:</strong> {{ case.target_amount }} {{ case.currency }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Treatment Plan -->
+        <div class="timeline-item">
+          <div class="timeline-marker bg-success"></div>
+          <div class="timeline-content">
+            <h5 class="mt-2 mb-3">Treatment Plan</h5>
+            <ul class="list-group mb-3">
+              {% for step in case.treatment_steps.all %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <span>
+                    <strong>{{ step.title }}</strong>
+                    <span class="text-muted small">({{ step.status }})</span>
+                  </span>
+                  <span class="badge bg-primary rounded-pill">{{ step.planned_date|date:"M d, Y" }}</span>
+                </li>
+              {% empty %}
+                <li class="list-group-item text-muted">No treatment steps recorded.</li>
+              {% endfor %}
+            </ul>
+            <!-- Keep this line as is -->
+<a href="{% url 'donations:make_donation' case.id %}" class="btn btn-success btn-sm w-auto px-4 mb-4">Donate</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add CSS in the same file -->
+<style>
+.circular-progress-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.circular-progress {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.circular-progress::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: conic-gradient(
+        #28a745 calc(var(--percentage) * 1%),
+        #e9ecef calc(var(--percentage) * 1%)
+    );
+}
+
+.patient-photo {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid white;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.progress-indicator {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: #28a745;
+    color: white;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    border: 3px solid white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 2;
+}
+
+.fundraising-status {
+    font-size: 1.1rem;
+}
+
+.fundraising-status .text-muted {
+    margin: 0 0.5rem;
+}
+</style>
+
+<!-- Add JavaScript at the bottom of the file -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const progressElement = document.querySelector('.circular-progress');
+    if (progressElement) {
+        const percentage = progressElement.dataset.percentage || 0;
+        progressElement.style.setProperty('--percentage', percentage);
+    }
+});
+</script>
+{% endblock %}

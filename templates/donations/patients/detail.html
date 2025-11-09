@@ -1,0 +1,939 @@
+{% extends 'donor/base.html' %}
+{% load static %}
+
+{% block title %}Patient Details | RHCI Donor Dashboard{% endblock %}
+
+{% block header_title %}Patient Profile{% endblock %}
+
+{% block extra_css %}
+<style>
+  .patient-profile {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 1.5rem;
+  }
+  
+  .patient-cover {
+    height: 200px;
+    background-color: var(--primary-light);
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    position: relative;
+  }
+  
+  .patient-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: white;
+    padding: 5px;
+    position: absolute;
+    bottom: -60px;
+    left: 30px;
+    border: 5px solid white;
+  }
+  
+  .patient-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  
+  .patient-info {
+    padding: 4rem 1.5rem 1.5rem;
+  }
+  
+  .patient-info-header {
+    margin-bottom: 1.5rem;
+  }
+  
+  .patient-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+  
+  .patient-location {
+    display: flex;
+    align-items: center;
+    color: var(--gray);
+    font-size: 0.875rem;
+  }
+  
+  .patient-location i {
+    margin-right: 0.25rem;
+  }
+  
+  .patient-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .detail-group {
+    margin-bottom: 1rem;
+  }
+  
+  .detail-label {
+    color: var(--gray);
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .detail-value {
+    font-weight: 500;
+  }
+  
+  .treatment-status {
+    margin: 1.5rem 0;
+  }
+  
+  .treatment-status-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+  
+  .treatment-status-title {
+    font-weight: 500;
+  }
+  
+  .treatment-status-percent {
+    font-weight: 600;
+    color: var(--primary);
+  }
+  
+  .treatment-progress {
+    height: 8px;
+    background-color: var(--gray-light);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .treatment-progress-bar {
+    height: 100%;
+    background-color: var(--primary);
+  }
+  
+  .patient-tabs {
+    margin-bottom: 1.5rem;
+  }
+  
+  .patient-tab-header {
+    display: flex;
+    border-bottom: 1px solid var(--gray-light);
+    background-color: white;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+  }
+  
+  .patient-tab {
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    font-weight: 500;
+    position: relative;
+    color: var(--gray);
+  }
+  
+  .patient-tab.active {
+    color: var(--primary);
+  }
+  
+  .patient-tab.active::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--primary);
+  }
+  
+  .patient-tab-content {
+    background-color: white;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    box-shadow: var(--shadow);
+  }
+  
+  .tab-pane {
+    display: none;
+    padding: 1.5rem;
+  }
+  
+  .tab-pane.active {
+    display: block;
+  }
+  
+  .treatment-history {
+    margin-bottom: 1.5rem;
+  }
+  
+  .treatment-history-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  
+  .treatment-history-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+  
+  .treatment-timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+  
+  .timeline-line {
+    position: absolute;
+    left: 0.75rem;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background-color: var(--gray-light);
+  }
+  
+  .timeline-item {
+    position: relative;
+    margin-bottom: 1.5rem;
+  }
+  
+  .timeline-dot {
+    position: absolute;
+    left: -2rem;
+    top: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: white;
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .timeline-dot i {
+    font-size: 0.75rem;
+    color: var(--primary);
+  }
+  
+  .timeline-date {
+    font-size: 0.75rem;
+    color: var(--gray);
+    margin-bottom: 0.25rem;
+  }
+  
+  .timeline-content {
+    background-color: var(--light);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+  }
+  
+  .timeline-title {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+  
+  .timeline-desc {
+    font-size: 0.875rem;
+  }
+  
+  .timeline-meta {
+    font-size: 0.75rem;
+    color: var(--gray);
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+  }
+  
+  .timeline-meta i {
+    margin-right: 0.25rem;
+  }
+  
+  .cost-summary {
+    margin-bottom: 1.5rem;
+  }
+  
+  .cost-summary-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  
+  .cost-summary-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+  
+  .cost-items {
+    margin-bottom: 1rem;
+  }
+  
+  .cost-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--gray-light);
+  }
+  
+  .cost-label {
+    color: var(--gray);
+  }
+  
+  .cost-value {
+    font-weight: 500;
+  }
+  
+  .cost-total {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1rem;
+    font-weight: 600;
+    font-size: 1.125rem;
+  }
+  
+  .documents-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  
+  .document-item {
+    background-color: var(--light);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .document-icon {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+  
+  .document-info {
+    flex: 1;
+  }
+  
+  .document-name {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+    word-break: break-word;
+  }
+  
+  .document-meta {
+    font-size: 0.75rem;
+    color: var(--gray);
+    margin-bottom: 0.5rem;
+  }
+  
+  .document-actions {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="patient-profile">
+  <div class="patient-cover"></div>
+  <div class="patient-avatar">
+    {% if patient.photo %}
+      <img src="{{ patient.photo.url }}" alt="{{ patient.name }}">
+    {% else %}
+      <img src="{% static 'images/default-patient.png' %}" alt="{{ patient.name }}">
+    {% endif %}
+  </div>
+  <div class="patient-info">
+    <div class="patient-info-header">
+      <h2 class="patient-name">{{ patient.name }}</h2>
+      <p class="patient-location">
+        <i class="fas fa-map-marker-alt"></i>
+        {{ patient.location|default:"Location not available" }}
+      </p>
+    </div>
+    
+    <div class="patient-details">
+      <div class="detail-group">
+        <div class="detail-label">Age</div>
+        <div class="detail-value">{{ patient.age }} years</div>
+      </div>
+      
+      <div class="detail-group">
+        <div class="detail-label">Gender</div>
+        <div class="detail-value">{{ patient.get_gender_display }}</div>
+      </div>
+      
+      <div class="detail-group">
+        <div class="detail-label">Medical Condition</div>
+        <div class="detail-value">{{ patient.condition }}</div>
+      </div>
+      
+      <div class="detail-group">
+        <div class="detail-label">Status</div>
+        <div class="detail-value">
+          {% if patient.is_active %}
+            <span class="badge bg-success">Active</span>
+          {% else %}
+            <span class="badge bg-secondary">Inactive</span>
+          {% endif %}
+        </div>
+      </div>
+      
+      <div class="detail-group">
+        <div class="detail-label">Case Manager</div>
+        <div class="detail-value">{{ patient.case_manager.get_full_name|default:patient.case_manager.username }}</div>
+      </div>
+      
+      <div class="detail-group">
+        <div class="detail-label">Supported Since</div>
+        <div class="detail-value">{{ patient.created_at|date:"F d, Y" }}</div>
+      </div>
+    </div>
+    
+    <div class="treatment-status">
+      <div class="treatment-status-header">
+        <div class="treatment-status-title">Treatment Progress</div>
+        <div class="treatment-status-percent">{{ patient.treatment_progress }}%</div>
+      </div>
+      <div class="treatment-progress">
+        <div class="treatment-progress-bar" style="width: {{ patient.treatment_progress }}%"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="patient-tabs">
+  <div class="patient-tab-header">
+    <div class="patient-tab active" data-tab="treatments">Treatments</div>
+    <div class="patient-tab" data-tab="costs">Financial Summary</div>
+    <div class="patient-tab" data-tab="documents">Documents</div>
+    <div class="patient-tab" data-tab="notes">Medical Notes</div>
+  </div>
+  
+  <div class="patient-tab-content">
+    <div id="treatments" class="tab-pane active">
+      <div class="treatment-history">
+        <div class="treatment-history-header">
+          <h3 class="treatment-history-title">Treatment History</h3>
+        </div>
+        
+        <div class="treatment-timeline">
+          <div class="timeline-line"></div>
+          
+          {% if treatments %}
+            {% for treatment in treatments %}
+            <div class="timeline-item">
+              <div class="timeline-dot">
+                <i class="fas fa-notes-medical"></i>
+              </div>
+              <div class="timeline-date">{{ treatment.date|date:"F d, Y" }}</div>
+              <div class="timeline-content">
+                <h4 class="timeline-title">{{ treatment.name }}</h4>
+                <p class="timeline-desc">{{ treatment.description }}</p>
+                <div class="timeline-meta">
+                  <i class="fas fa-hospital"></i>
+                  {{ treatment.hospital }}
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          {% else %}
+            <div class="timeline-item">
+              <div class="timeline-dot">
+                <i class="fas fa-info"></i>
+              </div>
+              <div class="timeline-content">
+                <p>No treatment history available for this patient.</p>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    
+    <div id="costs" class="tab-pane">
+      <div class="cost-summary">
+        <div class="cost-summary-header">
+          <h3 class="cost-summary-title">Treatment Costs</h3>
+        </div>
+        
+        <div class="cost-items">
+          {% if costs %}
+            {%{% extends 'donor/base.html' %}
+{% load static %}
+
+{% block title %}Patient Details | RHCI Donor Dashboard{% endblock %}
+
+{% block header_title %}Patient Profile{% endblock %}
+
+{% block extra_css %}
+<style>
+  .patient-profile {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 1.5rem;
+  }
+  
+  .patient-cover {
+    height: 200px;
+    background-color: var(--primary-light);
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    position: relative;
+  }
+  
+  .patient-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: white;
+    padding: 5px;
+    position: absolute;
+    bottom: -60px;
+    left: 30px;
+    border: 5px solid white;
+  }
+  
+  .patient-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  
+  .patient-info {
+    padding: 4rem 1.5rem 1.5rem;
+  }
+  
+  .patient-info-header {
+    margin-bottom: 1.5rem;
+  }
+  
+  .patient-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+  
+  .patient-location {
+    display: flex;
+    align-items: center;
+    color: var(--gray);
+    font-size: 0.875rem;
+  }
+  
+  .patient-location i {
+    margin-right: 0.25rem;
+  }
+  
+  .patient-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .detail-group {
+    margin-bottom: 1rem;
+  }
+  
+  .detail-label {
+    color: var(--gray);
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .detail-value {
+    font-weight: 500;
+  }
+  
+  .treatment-status {
+    margin: 1.5rem 0;
+  }
+  
+  .treatment-status-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+  
+  .treatment-status-title {
+    font-weight: 500;
+  }
+  
+  .treatment-status-percent {
+    font-weight: 600;
+    color: var(--primary);
+  }
+  
+  .treatment-progress {
+    height: 8px;
+    background-color: var(--gray-light);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .treatment-progress-bar {
+    height: 100%;
+    background-color: var(--primary);
+  }
+  
+  .patient-tabs {
+    margin-bottom: 1.5rem;
+  }
+  
+  .patient-tab-header {
+    display: flex;
+    border-bottom: 1px solid var(--gray-light);
+    background-color: white;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+  }
+  
+  .patient-tab {
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    font-weight: 500;
+    position: relative;
+    color: var(--gray);
+  }
+  
+  .patient-tab.active {
+    color: var(--primary);
+  }
+  
+  .patient-tab.active::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--primary);
+  }
+  
+  .patient-tab-content {
+    background-color: white;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    box-shadow: var(--shadow);
+  }
+  
+  .tab-pane {
+    display: none;
+    padding: 1.5rem;
+  }
+  
+  .tab-pane.active {
+    display: block;
+  }
+  
+  .treatment-history {
+    margin-bottom: 1.5rem;
+  }
+  
+  .treatment-history-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  
+  .treatment-history-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+  
+  .treatment-timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+  
+  .timeline-line {
+    position: absolute;
+    left: 0.75rem;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background-color: var(--gray-light);
+  }
+  
+  .timeline-item {
+    position: relative;
+    margin-bottom: 1.5rem;
+  }
+  
+  .timeline-dot {
+    position: absolute;
+    left: -2rem;
+    top: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: white;
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .timeline-dot i {
+    font-size: 0.75rem;
+    color: var(--primary);
+  }
+  
+  .timeline-date {
+    font-size: 0.75rem;
+    color: var(--gray);
+    margin-bottom: 0.25rem;
+  }
+  
+  .timeline-content {
+    background-color: var(--light);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+  }
+  
+  .timeline-title {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+  
+  .timeline-desc {
+    font-size: 0.875rem;
+  }
+  
+  .timeline-meta {
+    font-size: 0.75rem;
+    color: var(--gray);
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+  }
+  
+  .timeline-meta i {
+    margin-right: 0.25rem;
+  }
+  
+  .cost-summary {
+    margin-bottom: 1.5rem;
+  }
+  
+  .cost-summary-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  
+  .cost-summary-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+  
+  .cost-items {
+    margin-bottom: 1rem;
+  }
+  
+  .cost-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--gray-light);
+  }
+  
+  .cost-label {
+    color: var(--gray);
+  }
+  
+  .cost-value {
+    font-weight: 500;
+  }
+  
+  .cost-total {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1rem;
+    font-weight: 600;
+    font-size: 1.125rem;
+  }
+  
+  .documents-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  
+  .document-item {
+    background-color: var(--light);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .document-icon {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+  
+  .document-info {
+    flex: 1;
+  }
+  
+  .document-name {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+    word-break: break-word;
+  }
+  
+  .document-meta {
+    font-size: 0.75rem;
+    color: var(--gray);
+    margin-bottom: 0.5rem;
+  }
+  
+  .document-actions {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="patient-profile">
+  <div class="patient-cover"></div>
+  <div class="patient-avatar">
+    {% if patient.photo %}
+      <img src="{{ patient.photo.url }}" alt="{{ patient.name }}">
+    {% else %}
+      <img src="{% static 'images/default-patient.png' %}" alt="{{ patient.name }}">
+    {% endif %}
+  </div>
+  <div class="patient-info">
+    <div class="patient-info-header">
+      <h2 class="patient-name">{{ patient.name }}</h2>
+      <p class="patient-location">
+        <i class="fas fa-map-marker-alt"></i>
+        {{ patient.location|default:"Location not available" }}
+      </p>
+    </div>
+    
+    <div class="patient-details">
+      <div class="detail-group">
+        <div class="detail-label">Age</div>
+        <div class="detail-value">{{ patient.age }} years</div>
+      </div>
+      
+      <div class="detail-group">
+        <div class="detail-label">Gender</div>
+        <div class="detail-value">{{ patient.get_gender_display }}</div>
+      </div>
+      
+      <div class="detail-group">
+        <div class="detail-label">Medical Condition</div>
+        <div class="detail-value">{{ patient.condition }}</div>
+      </div>
+      
+      <div class="detail-group">
+        <div class="detail-label">Status</div>
+        <div class="detail-value">
+          {% if patient.is_active %}
+            <span class="badge bg-success">Active</span>
+          {% else %}
+            <span class="badge bg-secondary">Inactive</span>
+          {% endif %}
+        </div>
+      </div>
+      
+      <div class="detail-group">
+        <div class="detail-label">Case Manager</div>
+        <div class="detail-value">{{ patient.case_manager.get_full_name|default:patient.case_manager.username }}</div>
+      </div>
+      
+      <div class="detail-group">
+        <div class="detail-label">Supported Since</div>
+        <div class="detail-value">{{ patient.created_at|date:"F d, Y" }}</div>
+      </div>
+    </div>
+    
+    <div class="treatment-status">
+      <div class="treatment-status-header">
+        <div class="treatment-status-title">Treatment Progress</div>
+        <div class="treatment-status-percent">{{ patient.treatment_progress }}%</div>
+      </div>
+      <div class="treatment-progress">
+        <div class="treatment-progress-bar" style="width: {{ patient.treatment_progress }}%"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="patient-tabs">
+  <div class="patient-tab-header">
+    <div class="patient-tab active" data-tab="treatments">Treatments</div>
+    <div class="patient-tab" data-tab="costs">Financial Summary</div>
+    <div class="patient-tab" data-tab="documents">Documents</div>
+    <div class="patient-tab" data-tab="notes">Medical Notes</div>
+  </div>
+  
+  <div class="patient-tab-content">
+    <div id="treatments" class="tab-pane active">
+      <div class="treatment-history">
+        <div class="treatment-history-header">
+          <h3 class="treatment-history-title">Treatment History</h3>
+        </div>
+        
+        <div class="treatment-timeline">
+          <div class="timeline-line"></div>
+          
+          {% if treatments %}
+            {% for treatment in treatments %}
+            <div class="timeline-item">
+              <div class="timeline-dot">
+                <i class="fas fa-notes-medical"></i>
+              </div>
+              <div class="timeline-date">{{ treatment.date|date:"F d, Y" }}</div>
+              <div class="timeline-content">
+                <h4 class="timeline-title">{{ treatment.name }}</h4>
+                <p class="timeline-desc">{{ treatment.description }}</p>
+                <div class="timeline-meta">
+                  <i class="fas fa-hospital"></i>
+                  {{ treatment.hospital }}
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          {% else %}
+            <div class="timeline-item">
+              <div class="timeline-dot">
+                <i class="fas fa-info"></i>
+              </div>
+              <div class="timeline-content">
+                <p>No treatment history available for this patient.</p>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    
+    <div id="costs" class="tab-pane">
+      <div class="cost-summary">
+        <div class="cost-summary-header">
+          <h3 class="cost-summary-title">Treatment Costs</h3>
+        </div>
+        
+        <div class="cost-items">
+          {% if costs %}
+            {%

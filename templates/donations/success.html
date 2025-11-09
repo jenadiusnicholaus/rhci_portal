@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Donation Successful | RHCI{% endblock %}
+
+{% block extra_css %}
+<style>
+.success-card {
+    max-width: 600px;
+    margin: 2rem auto;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,.15);
+    background: #fff;
+    overflow: hidden;
+}
+
+.success-header {
+    background: linear-gradient(45deg, #28a745, #20c997);
+    padding: 2rem;
+    text-align: center;
+    color: white;
+}
+
+.success-icon {
+    width: 80px;
+    height: 80px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+}
+
+.success-icon i {
+    font-size: 2.5rem;
+}
+
+.success-details {
+    padding: 2rem;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.detail-label {
+    color: #6c757d;
+}
+
+.share-section {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    text-align: center;
+    border-top: 1px solid #dee2e6;
+}
+
+.social-share {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.social-share a {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: transform 0.2s;
+}
+
+.social-share a:hover {
+    transform: scale(1.1);
+}
+
+.facebook { background: #3b5998; }
+.twitter { background: #1da1f2; }
+.whatsapp { background: #25d366; }
+.linkedin { background: #0077b5; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="success-card">
+        <!-- Success Header -->
+        <div class="success-header">
+            <div class="success-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <h2 class="mb-2">Thank You!</h2>
+            <p class="mb-0">Your donation has been processed successfully</p>
+        </div>
+
+        <!-- Transaction Details -->
+        <div class="success-details">
+            <div class="detail-row">
+                <span class="detail-label">Amount</span>
+                <strong>{{ amount }} {{ currency }}</strong>
+            </div>
+
+            <div class="detail-row">
+                <span class="detail-label">Transaction ID</span>
+                <span>{{ transaction_id }}</span>
+            </div>
+
+            <div class="detail-row">
+                <span class="detail-label">Payment Method</span>
+                <span>{{ payment_method }} ({{ provider }})</span>
+            </div>
+
+            <div class="detail-row">
+                <span class="detail-label">Date</span>
+                <span>{{ date|date:"F j, Y, g:i a" }}</span>
+            </div>
+
+            <div class="detail-row">
+                <span class="detail-label">Beneficiary</span>
+                <span>{{ case.patient.get_full_name }}</span>
+            </div>
+
+            {% if not donation.is_anonymous %}
+            <div class="detail-row">
+                <span class="detail-label">Donor</span>
+                <span>{{ donation.donor.get_full_name }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Share Section -->
+        <div class="share-section">
+            <h5>Share this cause</h5>
+            <p class="text-muted">Help {{ case.patient.get_full_name }} reach more people</p>
+            
+            <div class="social-share">
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" 
+                   target="_blank" class="facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://twitter.com/intent/tweet?text=I just donated to help {{ case.patient.get_full_name }}. You can help too!&url={{ request.build_absolute_uri }}" 
+                   target="_blank" class="twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="whatsapp://send?text=I just donated to help {{ case.patient.get_full_name }}. You can help too! {{ request.build_absolute_uri }}" 
+                   class="whatsapp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" 
+                   target="_blank" class="linkedin">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="p-3 text-center">
+            <a href="{% url 'case_detail' case.id %}" class="btn btn-primary me-2">
+                View Case Progress
+            </a>
+            <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary">
+                Back to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+
+{% if donation.receipt %}
+<script>
+    // Auto-download receipt if available
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            window.location.href = "{% url 'donations:download_receipt' donation.receipt.id %}";
+        }, 2000);
+    });
+</script>
+{% endif %}
+{% endblock %}

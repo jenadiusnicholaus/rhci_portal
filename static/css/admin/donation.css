@@ -1,0 +1,15 @@
+.field-amount {
+    font-weight: bold;
+}
+
+.field-status .success {
+    color: #28a745;
+}
+
+.field-status .pending {
+    color: #ffc107;
+}
+
+.field-status .failed {
+    color: #dc3545;
+}

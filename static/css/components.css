@@ -1,0 +1,301 @@
+/* Sidebar Styles */
+.sidebar {
+  width: var(--sidebar-width);
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: white;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  z-index: 20;
+}
+
+.sidebar.collapsed {
+  width: var(--sidebar-collapsed);
+}
+
+.sidebar-header {
+  height: var(--header-height);
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--gray-light);
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-right: 1rem;
+}
+
+.logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.sidebar h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--secondary);
+  transition: opacity 0.3s ease;
+}
+
+.sidebar.collapsed h2 {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+}
+
+.sidebar-content {
+  flex: 1;
+  padding: 1.5rem 0;
+  overflow-y: auto;
+}
+
+.sidebar-menu ul {
+  padding: 0 1rem;
+}
+
+.menu-item {
+  margin-bottom: 0.5rem;
+}
+
+.menu-item a {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  color: var(--gray);
+  border-radius: var(--border-radius);
+  transition: all 0.2s ease;
+}
+
+.menu-item a:hover {
+  background-color: var(--primary-light);
+  color: var(--primary);
+}
+
+.menu-item.active a {
+  background-color: var(--primary-light);
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.menu-item i {
+  margin-right: 0.75rem;
+  width: 20px;
+  text-align: center;
+  font-size: 1.125rem;
+}
+
+.menu-item span {
+  transition: opacity 0.3s ease;
+}
+
+.sidebar.collapsed .menu-item span {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+}
+
+.badge {
+  background-color: var(--danger);
+  color: white;
+  font-size: 0.75rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 10px;
+  margin-left: auto;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar.collapsed .badge {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+}
+
+.sidebar-footer {
+  padding: 1rem;
+  border-top: 1px solid var(--gray-light);
+}
+
+.donation-button {
+  margin-bottom: 1rem;
+  transition: opacity 0.3s ease;
+}
+
+.donation-button .btn {
+  width: 100%;
+}
+
+.sidebar.collapsed .donation-button {
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+  margin: 0;
+}
+
+.sidebar-collapse {
+  display: flex;
+  justify-content: center;
+}
+
+.sidebar-collapse button {
+  background: var(--gray-light);
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.sidebar.collapsed .sidebar-collapse button {
+  transform: rotate(180deg);
+}
+
+/* Card Components */
+.card {
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.card-header {
+  padding: 1.25rem;
+  border-bottom: 1px solid var(--gray-light);
+}
+
+.card-body {
+  padding: 1.25rem;
+}
+
+.card-footer {
+  padding: 1.25rem;
+  border-top: 1px solid var(--gray-light);
+  background-color: var(--light);
+}
+
+/* Form Components */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--gray-light);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(43, 182, 115, 0.1);
+}
+
+.form-text {
+  font-size: 0.875rem;
+  color: var(--gray);
+  margin-top: 0.25rem;
+}
+
+.form-row {
+  display: flex;
+  margin: 0 -0.5rem;
+}
+
+.form-col {
+  flex: 1;
+  padding: 0 0.5rem;
+}
+
+/* Table Components */
+.table-responsive {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+
+.table th {
+  background-color: var(--light);
+  font-weight: 500;
+  color: var(--secondary);
+}
+
+.table tbody tr {
+  border-bottom: 1px solid var(--gray-light);
+}
+
+.table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.01);
+}
+
+/* Tabs Component */
+.tabs {
+  margin-bottom: 1.5rem;
+}
+
+.tab-header {
+  display: flex;
+  border-bottom: 1px solid var(--gray-light);
+}
+
+.tab-btn {
+  padding: 0.75rem 1rem;
+  font-weight: 500;
+  color: var(--gray);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+}
+
+.tab-btn.active {
+  color: var(--primary);
+}
+
+.tab-btn.active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--primary);
+}
+
+.tab-content {
+  padding-top: 1.5rem;
+}

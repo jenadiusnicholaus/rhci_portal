@@ -1,0 +1,627 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}How It Works | RHCI{% endblock %}
+
+{% block content %}
+<div class="how-it-works-container">
+  <!-- Hero Section -->
+  <section class="how-hero">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+          <h1>How RHCI Works</h1>
+          <p class="lead">A transparent process connecting generous donors with patients in need of surgical care</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Process Steps -->
+  <section class="process-steps">
+    <div class="container">
+      <div class="row mb-5">
+        <div class="col-12 text-center">
+          <h2>Our Simple Four-Step Process</h2>
+          <p class="text-muted">From identification to treatment, we ensure transparency at every stage</p>
+        </div>
+      </div>
+      
+      <div class="timeline">
+        <!-- Step 1 -->
+        <div class="timeline-item">
+          <div class="timeline-dot">
+            <span>1</span>
+          </div>
+          <div class="timeline-content left">
+            <div class="card">
+              <div class="card-body">
+                <div class="icon-container">
+                  <i class="fas fa-user-md"></i>
+                </div>
+                <h3>Patient Identification</h3>
+                <p>Our medical partners identify patients with congenital surgical conditions who lack financial resources for treatment.</p>
+                <ul>
+                  <li>Comprehensive medical assessment</li>
+                  <li>Financial need verification</li>
+                  <li>Treatment plan development</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Step 2 -->
+        <div class="timeline-item">
+          <div class="timeline-dot">
+            <span>2</span>
+          </div>
+          <div class="timeline-content right">
+            <div class="card">
+              <div class="card-body">
+                <div class="icon-container">
+                  <i class="fas fa-clipboard-list"></i>
+                </div>
+                <h3>Case Verification & Publication</h3>
+                <p>We verify each case and create a profile that donors can browse to understand the medical need and impact potential.</p>
+                <ul>
+                  <li>Medical documentation review</li>
+                  <li>Cost breakdown transparency</li>
+                  <li>Expected outcomes explained</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Step 3 -->
+        <div class="timeline-item">
+          <div class="timeline-dot">
+            <span>3</span>
+          </div>
+          <div class="timeline-content left">
+            <div class="card">
+              <div class="card-body">
+                <div class="icon-container">
+                  <i class="fas fa-hand-holding-heart"></i>
+                </div>
+                <h3>Donor Contribution</h3>
+                <p>Donors select patients they wish to support and contribute directly toward their surgical expenses.</p>
+                <ul>
+                  <li>100% of donations go to patient care</li>
+                  <li>Flexible contribution options</li>
+                  <li>Secure payment processing</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Step 4 -->
+        <div class="timeline-item">
+          <div class="timeline-dot">
+            <span>4</span>
+          </div>
+          <div class="timeline-content right">
+            <div class="card">
+              <div class="card-body">
+                <div class="icon-container">
+                  <i class="fas fa-heartbeat"></i>
+                </div>
+                <h3>Treatment & Follow-up</h3>
+                <p>Once funding is secured, patients receive their life-changing surgery, and donors receive updates on their progress.</p>
+                <ul>
+                  <li>Treatment documentation</li>
+                  <li>Recovery updates</li>
+                  <li>Long-term impact reporting</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Transparency Section -->
+  <section class="transparency-section">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <div class="content-block">
+            <h2>100% Transparency</h2>
+            <p class="mb-4">We believe in complete transparency in every aspect of our work. From the verification of medical needs to the allocation of funds, every step is documented and shared with our donors.</p>
+            <div class="transparency-features">
+              <div class="feature">
+                <div class="feature-icon">
+                  <i class="fas fa-receipt"></i>
+                </div>
+                <div class="feature-text">
+                  <h5>Expense Tracking</h5>
+                  <p>Every dollar is accounted for with detailed expense reports</p>
+                </div>
+              </div>
+              <div class="feature">
+                <div class="feature-icon">
+                  <i class="fas fa-camera"></i>
+                </div>
+                <div class="feature-text">
+                  <h5>Visual Documentation</h5>
+                  <p>Before, during and after photos show real impact</p>
+                </div>
+              </div>
+              <div class="feature">
+                <div class="feature-icon">
+                  <i class="fas fa-comments"></i>
+                </div>
+                <div class="feature-text">
+                  <h5>Progress Updates</h5>
+                  <p>Regular updates on patient recovery and outcomes</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <img src="{% static 'images/vision.jpg' %}" alt="Vision" class="img-fluid rounded shadow">
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- FAQ Section -->
+  <section class="faq-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center mb-5">
+          <h2>Frequently Asked Questions</h2>
+          <p class="text-muted">Get answers to common questions about our process</p>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-lg-6 mb-4">
+          <div class="accordion" id="faqAccordion1">
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                  How are patients selected for funding?
+                </button>
+              </h2>
+              <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion1">
+                <div class="accordion-body">
+                  <p>Patients are referred to RHCI by our partner hospitals and clinics. Each case undergoes a rigorous verification process, including medical assessment and financial need evaluation. We prioritize cases where surgical intervention will have the most significant life-changing impact.</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                  How does RHCI ensure donations reach patients?
+                </button>
+              </h2>
+              <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion1">
+                <div class="accordion-body">
+                  <p>We maintain direct partnerships with healthcare facilities and make payments directly to them for patient care. We never give cash to patients or families. Every expense is documented with receipts and medical records, which are accessible to the respective donors.</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                  What percentage of my donation goes to patients?
+                </button>
+              </h2>
+              <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion1">
+                <div class="accordion-body">
+                  <p>100% of donations designated for specific patients go directly to their medical care. RHCI's operational costs are covered separately through grants and unrestricted donations specifically designated for administrative purposes.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-6 mb-4">
+          <div class="accordion" id="faqAccordion2">
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                  How long does the entire process take?
+                </button>
+              </h2>
+              <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion2">
+                <div class="accordion-body">
+                  <p>The timeline varies depending on the complexity of the case and how quickly funding is secured. Typically, once a patient is fully funded, surgery is scheduled within 2-4 weeks. The entire process from identification to post-operative follow-up usually takes 3-6 months.</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                  Can I track the progress of patients I've supported?
+                </button>
+              </h2>
+              <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion2">
+                <div class="accordion-body">
+                  <p>Yes! Donors receive updates through their donor dashboard, including pre-operative preparation, surgery completion notification, and recovery updates. We provide photos (with patient consent) and progress reports while maintaining appropriate medical privacy.</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                  Are my donations tax-deductible?
+                </button>
+              </h2>
+              <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion2">
+                <div class="accordion-body">
+                  <p>RHCI is a registered non-profit organization in Tanzania. For Tanzanian donors, contributions are tax-deductible. For international donors, tax benefits depend on your country's regulations regarding international charitable contributions.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+          <h2>Ready to Change a Life?</h2>
+          <p class="mb-4">Join our community of donors who are making healthcare accessible to those who need it most.</p>
+          <div class="d-flex justify-content-center">
+            <a href="{% url 'signup' %}" class="btn btn-primary btn-lg me-3">Become a Donor</a>
+            <a href="{% url 'about' %}" class="btn btn-outline-light btn-lg">Learn More About Us</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  :root {
+    --primary-blue: #1a2a36;
+    --secondary-blue: #2c445a;
+    --accent-blue: #3a7ca5;
+    --hover-blue: #4d97c3;
+    --light-blue: #e8f4fc;
+  }
+  
+  .how-it-works-container {
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  /* Hero Section */
+  .how-hero {
+    background-color: var(--light-blue);
+    padding: 80px 0 60px;
+    position: relative;
+  }
+  
+  .how-hero h1 {
+    color: var(--primary-blue);
+    font-weight: 700;
+    font-size: 2.8rem;
+    margin-bottom: 1rem;
+  }
+  
+  .how-hero p.lead {
+    color: var(--secondary-blue);
+    font-size: 1.3rem;
+    font-weight: 400;
+  }
+  
+  /* Process Steps */
+  .process-steps {
+    padding: 80px 0;
+    background-color: #fff;
+  }
+  
+  .process-steps h2 {
+    color: var(--primary-blue);
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  
+  .timeline {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 0;
+  }
+  
+  .timeline::after {
+    content: '';
+    position: absolute;
+    width: 4px;
+    background-color: var(--light-blue);
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -2px;
+  }
+  
+  .timeline-item {
+    position: relative;
+    margin-bottom: 60px;
+  }
+  
+  .timeline-dot {
+    width: 40px;
+    height: 40px;
+    background-color: var(--accent-blue);
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  }
+  
+  .timeline-content {
+    width: 45%;
+    position: relative;
+  }
+  
+  .timeline-content.left {
+    left: 0;
+  }
+  
+  .timeline-content.right {
+    left: 55%;
+  }
+  
+  .timeline-content .card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    transition: transform 0.3s;
+  }
+  
+  .timeline-content .card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .timeline-content .card .icon-container {
+    width: 60px;
+    height: 60px;
+    background-color: var(--light-blue);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .timeline-content .card .icon-container i {
+    font-size: 24px;
+    color: var(--accent-blue);
+  }
+  
+  .timeline-content .card h3 {
+    color: var(--primary-blue);
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+  
+  .timeline-content .card p {
+    color: #555;
+    margin-bottom: 15px;
+  }
+  
+  .timeline-content .card ul {
+    color: #555;
+    padding-left: 20px;
+  }
+  
+  .timeline-content .card ul li {
+    margin-bottom: 8px;
+  }
+  
+  /* Transparency Section */
+  .transparency-section {
+    background-color: var(--light-blue);
+    padding: 80px 0;
+  }
+  
+  .content-block h2 {
+    color: var(--primary-blue);
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  
+  .transparency-features {
+    margin-top: 30px;
+  }
+  
+  .feature {
+    display: flex;
+    margin-bottom: 25px;
+  }
+  
+  .feature-icon {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(58, 124, 165, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    flex-shrink: 0;
+  }
+  
+  .feature-icon i {
+    color: var(--accent-blue);
+    font-size: 20px;
+  }
+  
+  .feature-text h5 {
+    font-weight: 600;
+    color: var(--secondary-blue);
+    margin-bottom: 5px;
+  }
+  
+  .feature-text p {
+    color: #555;
+    margin-bottom: 0;
+  }
+  
+  /* FAQ Section */
+  .faq-section {
+    padding: 80px 0;
+    background-color: #fff;
+  }
+  
+  .faq-section h2 {
+    color: var(--primary-blue);
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  
+  .accordion-item {
+    border: none;
+    margin-bottom: 15px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .accordion-header {
+    margin: 0;
+  }
+  
+  .accordion-button {
+    background-color: #fff;
+    font-weight: 600;
+    color: var(--primary-blue);
+    padding: 15px 20px;
+    box-shadow: none;
+  }
+  
+  .accordion-button:not(.collapsed) {
+    background-color: var(--light-blue);
+    color: var(--accent-blue);
+  }
+  
+  .accordion-button:focus {
+    box-shadow: none;
+    border-color: var(--light-blue);
+  }
+  
+  .accordion-button::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%233a7ca5'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  }
+  
+  .accordion-body {
+    padding: 15px 20px;
+  }
+  
+  .accordion-body p {
+    color: #555;
+    margin-bottom: 0;
+  }
+  
+  /* CTA Section */
+  .cta-section {
+    background-color: var(--primary-blue);
+    color: white;
+    padding: 80px 0;
+  }
+  
+  .cta-section h2 {
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  
+  .cta-section p {
+    font-size: 1.15rem;
+    opacity: 0.9;
+  }
+  
+  .btn-primary {
+    background-color: var(--accent-blue);
+    border-color: var(--accent-blue);
+    padding: 12px 30px;
+    font-weight: 600;
+    transition: all 0.3s;
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--hover-blue);
+    border-color: var(--hover-blue);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+  }
+  
+  .btn-outline-light {
+    border-color: #fff;
+    color: #fff;
+    padding: 12px 30px;
+    font-weight: 600;
+    transition: all 0.3s;
+  }
+  
+  .btn-outline-light:hover {
+    background-color: #fff;
+    color: var(--primary-blue);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 992px) {
+    .timeline::after {
+      left: 31px;
+    }
+    
+    .timeline-dot {
+      left: 31px;
+      transform: translateX(-50%);
+    }
+    
+    .timeline-content {
+      width: 85%;
+    }
+    
+    .timeline-content.left,
+    .timeline-content.right {
+      left: 60px;
+    }
+    
+    .how-hero {
+      padding: 60px 0 40px;
+    }
+    
+    .how-hero h1 {
+      font-size: 2.2rem;
+    }
+    
+    .how-hero p.lead {
+      font-size: 1.1rem;
+    }
+    
+    .process-steps,
+    .transparency-section,
+    .faq-section,
+    .cta-section {
+      padding: 60px 0;
+    }
+  }
+</style>
+{% endblock %}

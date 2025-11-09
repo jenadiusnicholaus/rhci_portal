@@ -1,0 +1,409 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}RHCI &mdash; BUILD A COMMUNITY WITH BETTER HEALTH{% endblock %}
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1>Help Patients in Tanzania Access Life-Changing Surgery</h1>
+                <p class="lead">Every donation supports real patients with congenital surgical conditions. 100% transparency, 100% impact.</p>
+                
+                <div class="hero-buttons">
+             
+       
+                    <a href="{% url 'core:signup' %}" class="btn btn-secondary btn-lg ms-2">Join Us</a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <img src="{% static 'images/hero_2.jpg' %}" alt="RHCI Hero" class="img-fluid rounded shadow">
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+:root {
+    --primary-blue: #1a2a36;
+    --secondary-blue: #2c445a;
+    --accent-blue: #3a7ca5;
+    --hover-blue: #4d97c3;
+    --light-blue: #e8f4fc;
+  --base-font: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --base-size: 16px;
+  --h1-size: 2rem;
+  --h2-size: 1.75rem;
+  --h3-size: 1.5rem;
+  --h4-size: 1.25rem;
+  --text-sm: 0.875rem;
+  --text-xs: 0.75rem;
+}
+
+.hero-section {
+    padding: 80px 0;
+    background-color: var(--light-blue);
+}
+
+.hero-section h1 {
+    color: var(--primary-blue);
+    font-weight: 700;
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.hero-section p {
+    color: var(--secondary-blue);
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.hero-buttons {
+    margin-bottom: 2rem;
+}
+
+.btn-primary {
+    background-color: var(--accent-blue);
+    border-color: var(--accent-blue);
+    padding: 12px 30px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-secondary {
+    background-color: var(--primary-blue);
+    border-color: var(--primary-blue);
+    padding: 12px 30px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-primary:hover,
+.btn-secondary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+.hero-section img {
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 992px) {
+    .hero-section {
+        text-align: center;
+        padding: 60px 0;
+    }
+    
+    .hero-section img {
+        margin-top: 30px;
+    }
+}
+
+/* Base typography */
+html {
+  font-size: var(--base-size);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--base-font);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #333;
+}
+
+/* Headings */
+h1, .h1 { font-size: var(--h1-size); font-weight: 700; line-height: 1.2; }
+h2, .h2 { font-size: var(--h2-size); font-weight: 600; line-height: 1.25; }
+h3, .h3 { font-size: var(--h3-size); font-weight: 600; line-height: 1.3; }
+h4, .h4 { font-size: var(--h4-size); font-weight: 600; line-height: 1.4; }
+
+/* Responsive typography */
+@media (max-width: 768px) {
+  :root {
+    --base-size: 14px;
+    --h1-size: 1.75rem;
+    --h2-size: 1.5rem;
+    --h3-size: 1.25rem;
+    --h4-size: 1.125rem;
+  }
+}
+
+/* Form elements */
+.form-control {
+  font-size: 1rem;
+  line-height: 1.5;
+  padding: 0.5rem 0.75rem;
+}
+
+.form-label {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+/* Buttons */
+.btn {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.btn-sm {
+  font-size: 0.875rem;
+  padding: 0.25rem 0.5rem;
+}
+
+/* Cards */
+.card-title {
+  font-size: var(--h4-size);
+  font-weight: 600;
+}
+
+.card-text {
+  font-size: 1rem;
+}
+
+/* Navigation */
+.navbar-brand {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.nav-link {
+  font-size: 1rem;
+}
+
+/* Utilities */
+.text-small {
+  font-size: var(--text-sm);
+}
+
+.text-xs {
+  font-size: var(--text-xs);
+}
+
+/* Tables */
+.table {
+  font-size: 0.9375rem;
+}
+
+@media (max-width: 576px) {
+  .table {
+    font-size: 0.875rem;
+  }
+}
+
+/* Alert messages */
+.alert {
+  font-size: 0.9375rem;
+}
+
+/* Donation amounts */
+.amount-display {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+@media (max-width: 576px) {
+  .amount-display {
+    font-size: 1.25rem;
+  }
+}
+</style>
+
+<!-- Patient Category Filter (Just Below Hero) -->
+<section class="container py-3">
+  <form id="patient-filter-form" class="row justify-content-center align-items-center">
+    <div class="col-md-6 col-lg-4 mb-2 mb-lg-0">
+      <select class="form-control form-select" id="patient-category" name="category">
+        <option value="">All Categories</option>
+        <option value="Neural Tube Defects">Neural Tube Defects</option>
+        <option value="Gastrointestinal Anomalies">Congenital Gastrointestinal Anomalies</option>
+        <option value="Cardiac Defects">Congenital Cardiac Defects</option>
+        <option value="Urogenital Anomalies">Congenital Urogenital Anomalies</option>
+        <option value="Orthopedic Defects">Congenital Orthopedic Defects</option>
+        <option value="Other Issues">Other Congenital Issues</option>
+      </select>
+    </div>
+    <div class="col-md-4 col-lg-2">
+      <button type="submit" class="btn btn-primary w-100">Filter Patients</button>
+    </div>
+  </form>
+</section>
+
+<!-- Impact Highlights Section -->
+<div class="container py-5">
+  <div class="row text-center">
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-sm p-4">
+        <span class="icon-heart text-primary display-4 mb-2"></span>
+        <h5>6 Categories of Congenital Conditions</h5>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-sm p-4">
+        <span class="icon-money text-success display-4 mb-2"></span>
+        <h5>100% of your donation goes to patient care</h5>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-sm p-4">
+        <span class="icon-bar-chart text-warning display-4 mb-2"></span>
+        <h5>Full treatment progress reporting</h5>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Patient Stories Section -->
+<div id="patients" class="site-section bg-light">
+  <div class="container">
+    <div class="heading-20219 mb-5 text-center">
+      <h2 class="title text-cursive">Featured Patients</h2>
+      <a href="#patients" class="btn btn-warning btn-sm mt-2 scroll-to-patients">Donate Now</a>
+      <a href="patients.html" class="btn btn-outline-primary btn-sm mt-2">See All Patients</a>
+    </div>
+    <div class="row">
+      {% for case in cases %}
+        <div class="col-md-3">
+          <div class="card shadow-sm mb-4">
+            {% if case.patient.photo %}
+              <img src="{{ case.patient.photo.url }}" class="card-img-top" alt="{{ case.patient.first_name }}">
+            {% elif case.case_image %}
+              <img src="{{ case.case_image.url }}" class="card-img-top" alt="{{ case.patient.first_name }}">
+            {% else %}
+              <img src="{% static 'images/default_patient.jpg' %}" class="card-img-top" alt="No photo">
+            {% endif %}
+            <div class="card-body text-center">
+              <h5 class="card-title mb-1">
+                {{ case.patient.first_name }} {{ case.patient.last_name }}
+              </h5>
+              <div class="mb-2 text-muted small">{{ case.diagnosis }}</div>
+              <div class="mb-2">
+                <strong>Treatment Date:</strong> {{ case.start_date|date:"M d, Y" }}
+              </div>
+              <div class="mb-2">
+                <strong>Required:</strong> {{ case.target_amount }} {{ case.currency }}
+              </div>
+              {% with donated=case.amount_raised|default:0 %}
+                {% with percent=donated|divisibleby:case.target_amount|floatformat:0 %}
+                  <div class="mb-2">
+                    <div class="progress" style="height: 20px; border-radius: 10px;">
+                      <div class="progress-bar bg-success" style="width: {{ case.percent_raised|default:0 }}%;">
+                        {{ case.percent_raised|default:0 }}%
+                      </div>
+                    </div>
+                    <small class="text-muted">{{ case.amount_raised }} / {{ case.target_amount }} {{ case.currency }}</small>
+                  </div>
+                {% endwith %}
+              {% endwith %}
+              <a href="{% url 'core:patient_detail' id=case.id %}" class="btn btn-primary btn-block rounded-pill mt-2">Donate Now</a>
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <div class="col-12">
+          <p>No published cases available at the moment.</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!-- How It Works Section -->
+<div class="site-section bg-white py-5">
+  <div class="container">
+    <div class="heading-20219 mb-5 text-center">
+      <h2 class="title text-cursive">How It Works</h2>
+      <p class="lead text-secondary">Our Process<br>Every step is designed for transparency, compassion, and measurable impact.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm text-center">
+          <div class="card-body">
+            <span class="icon-share-alt display-4 text-primary mb-3"></span>
+            <h5 class="card-title">1. Referral</h5>
+            <p class="card-text">Patients are referred to RHCI through partner hospitals and the CareLink app.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm text-center">
+          <div class="card-body">
+            <span class="icon-check-circle display-4 text-success mb-3"></span>
+            <h5 class="card-title">2. Verification</h5>
+            <p class="card-text">RHCI’s medical team carefully reviews and verifies each patient profile, ensuring accuracy and eligibility.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm text-center">
+          <div class="card-body">
+            <span class="icon-gift display-4 text-warning mb-3"></span>
+            <h5 class="card-title">3. Donation</h5>
+            <p class="card-text">Donors browse patient stories and select who they want to support.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm text-center">
+          <div class="card-body">
+            <span class="icon-medkit display-4 text-primary mb-3"></span>
+            <h5 class="card-title">4. Treatment</h5>
+            <p class="card-text">Once fully funded, RHCI transfers the necessary funds and coordinates with hospitals for the patient’s surgery.</p>  
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm text-center">
+          <div class="card-body">
+            <span class="icon-bar-chart display-4 text-success mb-3"></span>
+            <h5 class="card-title">5. Reporting</h5>
+            <p class="card-text">Donors receive real-time updates and a final treatment report for every patient they support.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm text-center">
+          <div class="card-body">
+            <span class="icon-refresh display-4 text-warning mb-3"></span>
+            <h5 class="card-title">6. Homecare support</h5>
+            <p class="card-text">RHCI continuously provide homecare support and medical assistance to patients. </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Join Our Community Section -->
+<section class="bg-primary text-white py-5 mb-0">
+  <div class="container text-center">
+    <h2 class="mb-3">Ready to Make a Difference?</h2>
+    <p class="lead mb-4">Create an account to start your journey as a donor and help change lives in Tanzania.</p>
+    <div class="d-flex justify-content-center">
+      <a href="/signup" class="btn btn-light btn-lg px-4 mx-2">Sign Up Now</a>
+      <a href="{% url 'core:login' %}" class="btn btn-outline-light btn-lg px-4 mx-2">Already Have an Account? Log In</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var buttons = document.querySelectorAll('.scroll-to-patients');
+    buttons.forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        var target = document.getElementById('patients');
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,318 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Create Donor Account | RHCI{% endblock %}
+
+{% block content %}
+<div class="auth-container signup-bg">
+  <div class="auth-card">
+    <div class="logo-container">
+      <div class="logo-circle">
+        <img src="{% static 'images/logo.jpg' %}" alt="RHCI Logo">
+      </div>
+    </div>
+    
+    <div class="auth-header text-center">
+      <h2>Create Account</h2>
+      <p class="text-muted">Join RHCI and start making an impact today</p>
+    </div>
+    
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+    
+    <form method="POST" action="{% url 'users:signup' %}">
+      {% csrf_token %}
+      
+      <div class="mb-4">
+        <label for="donor_type" class="form-label">I am donating as</label>
+        <select class="form-select form-select-lg" id="donor_type" name="category" required onchange="toggleOrganizationFields()">
+          <option value="" selected disabled>Select donor type</option>
+          <option value="Individual">Individual</option>
+          <option value="Company CSR">Company CSR</option>
+          <option value="NGO">NGO</option>
+        </select>
+      </div>
+      
+      <div id="organizationFields" style="display:none;">
+        <div class="mb-4">
+          <label for="organization_name" class="form-label">Organization Name</label>
+          <input type="text" class="form-control form-control-lg" id="organization_name" name="organization_name" placeholder="Enter organization name">
+        </div>
+        
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <label for="country" class="form-label">Country</label>
+            <input type="text" class="form-control form-control-lg" id="country" name="country" placeholder="Country">
+          </div>
+          <div class="col-md-6">
+            <label for="city" class="form-label">City</label>
+            <input type="text" class="form-control form-control-lg" id="city" name="city" placeholder="City">
+          </div>
+        </div>
+        
+        <div class="mb-4">
+          <label for="address" class="form-label">Address</label>
+          <textarea class="form-control form-control-lg" id="address" name="address" rows="2" placeholder="Street address"></textarea>
+        </div>
+        
+        <div class="mb-4">
+          <label class="form-label">Payment Type</label>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="payment_type" id="payment_one_time" value="One-time">
+            <label class="form-check-label" for="payment_one_time">One-time Donation</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="payment_type" id="payment_periodic" value="Periodic">
+            <label class="form-check-label" for="payment_periodic">Periodic Support</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="payment_type" id="payment_not_sure" value="Not sure">
+            <label class="form-check-label" for="payment_not_sure">Not Sure Yet</label>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <label for="first_name" class="form-label">First Name</label>
+          <input type="text" class="form-control form-control-lg" id="first_name" name="first_name" placeholder="Your first name" required>
+        </div>
+        <div class="col-md-6">
+          <label for="last_name" class="form-label">Last Name</label>
+          <input type="text" class="form-control form-control-lg" id="last_name" name="last_name" placeholder="Your last name" required>
+        </div>
+      </div>
+      
+      <div class="mb-4">
+        <label for="email" class="form-label">Email Address</label>
+        <div class="input-group input-group-lg">
+          <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+          <input type="email" class="form-control" id="email" name="email" placeholder="Your email address" required>
+        </div>
+      </div>
+      
+      <div class="mb-4">
+        <label for="password1" class="form-label">Create Password</label>
+        <div class="input-group input-group-lg">
+          <span class="input-group-text"><i class="fas fa-lock"></i></span>
+          <input type="password" class="form-control" id="password1" name="password1" placeholder="Create a password" required>
+        </div>
+        <div class="form-text">Password must be at least 8 characters with letters and numbers.</div>
+      </div>
+      
+      <div class="mb-4">
+        <label for="password2" class="form-label">Confirm Password</label>
+        <div class="input-group input-group-lg">
+          <span class="input-group-text"><i class="fas fa-lock"></i></span>
+          <input type="password" class="form-control" id="password2" name="password2" placeholder="Confirm your password" required>
+        </div>
+      </div>
+      
+      <div class="mb-4">
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="terms" name="terms" required>
+          <label class="form-check-label" for="terms">
+            I agree to the <a href="{% url 'core:terms' %}" target="_blank">Terms of Service</a> and <a href="{% url 'core:privacy' %}" target="_blank">Privacy Policy</a>
+          </label>
+        </div>
+      </div>
+      
+      <div class="d-grid mb-4">
+        <button type="submit" class="btn btn-primary btn-lg">Create Account</button>
+      </div>
+      
+      <div class="text-center login-link">
+        <p>Already have an account? <a href="{% url 'core:login' %}">Sign In</a></p>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  function toggleOrganizationFields() {
+    const category = document.getElementById('donor_type').value;
+    const orgFields = document.getElementById('organizationFields');
+    
+    if (category === 'Company CSR' || category === 'NGO') {
+      orgFields.style.display = 'block';
+    } else {
+      orgFields.style.display = 'none';
+    }
+  }
+  
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    toggleOrganizationFields();
+  });
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/typography.css' %}">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+  
+  .auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 80px);
+    padding: 1rem;
+    background: linear-gradient(to bottom, var(--light-blue), white);
+  }
+  
+  .auth-card {
+    width: 100%;
+    max-width: 560px; /* Reduced from 700px */
+    background-color: rgba(255,255,255,0.95);
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    padding: 2rem;
+    position: relative;
+    transform: translateY(0);
+    animation: fadeIn 0.5s ease-out;
+    margin: 60px auto 20px auto; /* Reduced margins */
+  }
+  
+  .logo-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .logo-circle {
+    width: 80px;
+    height: 80px;
+    margin-top: -60px;
+    border: 3px solid white;
+  }
+  
+  .logo-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+  }
+  
+  .auth-header h2 {
+    font-size: 1.75rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .auth-header p {
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-label {
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 0.5rem;
+  }
+  
+  .input-group-text {
+    background-color: transparent;
+    border-right: none;
+    color: var(--accent-blue);
+  }
+  
+  .form-control, .form-select {
+    border-left: none;
+    padding-left: 0;
+    font-size: 1rem;
+  }
+  
+  .form-control.form-control-lg, 
+  .form-select.form-select-lg {
+    height: calc(2.75rem + 2px);
+    padding: 0.5rem 0.75rem;
+    font-size: 0.95rem;
+  }
+  
+  .input-group:focus-within {
+    box-shadow: 0 0 0 0.25rem rgba(58, 124, 165, 0.25);
+  }
+  
+  .input-group:focus-within .input-group-text,
+  .input-group:focus-within .form-control {
+    border-color: var(--accent-blue);
+  }
+  
+  .btn-primary {
+    background-color: var(--accent-blue);
+    border-color: var(--accent-blue);
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--hover-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(58, 124, 165, 0.3);
+  }
+  
+  .login-link, .signup-link {
+    margin-top: 1.5rem;
+  }
+  
+  .login-link p, .signup-link p {
+    font-size: 1.05rem;
+  }
+  
+  .login-link a, .signup-link a {
+    color: var(--accent-blue);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  
+  .login-link a:hover, .signup-link a:hover {
+    color: var(--hover-blue);
+    text-decoration: underline;
+  }
+  
+  .form-check-input:checked {
+    background-color: var(--accent-blue);
+    border-color: var(--accent-blue);
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .auth-card {
+      padding: 1.5rem;
+      margin: 60px 0.5rem 0.5rem 0.5rem;
+    }
+    
+    .logo-circle {
+      width: 70px;
+      height: 70px;
+      margin-top: -50px;
+    }
+    
+    /* Stack form columns on mobile */
+    .row > [class*="col-"] {
+      margin-bottom: 1rem;
+    }
+  }
+</style>
+{% endblock %}

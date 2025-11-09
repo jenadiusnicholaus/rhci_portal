@@ -1,0 +1,17 @@
+Progress & To-Do Log
+
+Progress:
+-patient CMD setup and managed
+-admin functionality developed
+-Build foundational setup on homepages and other env aspects
+- Removed all Jazzmin metrics customizations and reverted to default Jazzmin admin.
+- Ensured mobile responsiveness and improved general UI/UX design on patient and admin pages.
+- Cleaned up template overrides and fixed sidebar/navigation issues.
+- Fixed SQLite compatibility issues and removed unsupported queries.
+
+Coming To-Do:
+- Integrate donation/payment system with RapeSa.
+- Implement payment tracking for donations.
+- Build a donor dashboard for donor self-service and transparency.
+- Continue refining mobile responsiveness and overall UI/UX.
+- Document all changes and keep this log updated

@@ -1,0 +1,375 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}RHCI - Rotary Health Care Initiative{% endblock %}</title>
+    
+    <!-- Add favicon -->
+    <link rel="icon" type="image/png" href="{% static 'images/logo.jpg' %}">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/typography.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% block extra_css %}{% endblock %}
+    
+    <style>
+        body {
+            font-family: var(--font-primary);
+        }
+        
+        /* Navbar styling */
+        .navbar {
+            padding: 15px 0;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        /* Brand logo text styling */
+        .navbar-brand {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+        
+        .navbar-nav .nav-link {
+            font-weight: 500;
+            color: #333;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            color: var(--accent-blue);
+        }
+        
+        .navbar-nav .btn {
+            margin-left: 15px;
+            padding: 8px 20px;
+            border-radius: 50px;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-blue);
+            border-color: var(--accent-blue);
+            transition: all 0.3s;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--hover-blue);
+            border-color: var(--hover-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(58, 124, 165, 0.3);
+        }
+        
+        /* Custom navbar toggle */
+        .navbar-toggler {
+            border: none;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .navbar-toggler:focus {
+            box-shadow: none;
+            outline: none;
+        }
+        
+        .navbar-toggler-icon {
+            background-image: none;
+            position: relative;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-blue);
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        
+        .navbar-toggler-icon::before,
+        .navbar-toggler-icon::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-blue);
+            left: 0;
+            transition: all 0.3s;
+        }
+        
+        .navbar-toggler-icon::before {
+            top: -8px;
+        }
+        
+        .navbar-toggler-icon::after {
+            top: 8px;
+        }
+        
+        .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
+            background-color: transparent;
+        }
+        
+        .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::before {
+            transform: rotate(45deg);
+            top: 0;
+        }
+        
+        .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::after {
+            transform: rotate(-45deg);
+            top: 0;
+        }
+        
+        /* Footer styling */
+        .footer {
+            background-color: var(--primary-blue);
+            color: #fff;
+            padding: 50px 0 20px;
+        }
+        
+        .footer h5 {
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--hover-blue);
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #f8f9fa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-blue);
+        }
+        
+        .social-icons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.1);
+            color: #fff;
+            text-align: center;
+            line-height: 40px;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--accent-blue);
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 20px;
+            margin-top: 40px;
+        }
+        
+        /* WhatsApp Chat Button */
+        .whatsapp-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #25D366;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .whatsapp-button:hover {
+            transform: scale(1.1);
+            color: white;
+        }
+        
+        .whatsapp-tooltip {
+            position: absolute;
+            right: 75px;
+            background-color: white;
+            color: #333;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            white-space: nowrap;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            pointer-events: none;
+        }
+        
+        .whatsapp-button:hover .whatsapp-tooltip {
+            opacity: 1;
+        }
+        
+        /* Mobile optimizations */
+        @media (max-width: 992px) {
+            .navbar-collapse {
+                background-color: white;
+                border-radius: 10px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                padding: 20px;
+                margin-top: 15px;
+            }
+            
+            .navbar-nav .nav-item {
+                margin: 8px 0;
+            }
+            
+            .navbar-nav .btn {
+                margin: 10px 0 5px 0;
+                display: block;
+                text-align: center;
+            }
+            
+            .whatsapp-button {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <!-- Replace logo image with text -->
+            <a class="navbar-brand" href="{% url 'core:home' %}">
+                RHCI
+            </a>
+            
+            <!-- Mobile Toggle Button with Animation -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+                    data-bs-target="#navbarNav" aria-controls="navbarNav" 
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'core:about' %}">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'core:howitworks' %}">How It Works</a>
+                    </li>
+                    
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'core:donor_dashboard' %}">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'core:logout' %}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'core:login' %}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-primary" href="{% url 'core:signup' %}">Sign Up</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main style="padding-top: 80px;">
+        {% block content %}{% endblock %}
+    </main>
+    
+    <!-- WhatsApp Chat Button -->
+    <a href="https://wa.me/255616919854" class="whatsapp-button" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+        <span class="whatsapp-tooltip">Chat with us!</span>
+    </a>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+                    <h5>About RAIZE</h5>
+                    <p>RAIZE Health Care Initiative connects donors with patients in need of financial support for medical care in Tanzania, ensuring 100% transparency and impact.</p>
+                    <div class="social-icons mt-3">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <h5>Quick Links</h5>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'core:about' %}">About Us</a></li>
+                        <li><a href="{% url 'core:howitworks' %}">How It Works</a></li>
+                        <li><a href="{% url 'core:terms' %}">Terms of Service</a></li>
+                        <li><a href="{% url 'core:privacy' %}">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5>Contact</h5>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt me-2"></i> Dar es Salaam, Tanzania</li>
+                        <li><i class="fas fa-phone me-2"></i> +255 616 919 854</li>
+                        <li><i class="fas fa-envelope me-2"></i> info@rhci.co.tz</li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <h5>Newsletter</h5>
+                    <p>Subscribe to our newsletter for updates</p>
+                    <form>
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control" placeholder="Your Email" aria-label="Email" aria-describedby="subscribe-btn">
+                            <button class="btn btn-primary" type="button" id="subscribe-btn">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="footer-bottom text-center">
+                <p class="mb-0">© {% now "Y" %} RHCI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

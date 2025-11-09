@@ -1,0 +1,10 @@
+1. Develop a script to simulate the database content- 2-3
+2. Create view of the data from the db to front end( Module-wise to avoid prone errors)3-10
+3. Refine the general UI/UX of the system - 11-12
+4. develop a postgres db - 13-14
+5. Host MVP - 15
+6. Integrate payment gateways - 15 - 25
+7. perform Testing 25-30
+8. Hand-Over.
+
+

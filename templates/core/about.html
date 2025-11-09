@@ -1,0 +1,817 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}About Us | RHCI{% endblock %}
+
+{% block content %}
+<div class="about-container">
+  <!-- Hero Section -->
+  <section class="about-hero">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+          <h1>About RHCI</h1>
+          <p class="lead">Building a bridge between generous donors and patients in need of surgical care in Tanzania</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Vision and Mission -->
+  <section class="vision-mission">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+          <div class="statement-card">
+            <div class="icon">
+              <i class="fas fa-eye"></i>
+            </div>
+            <h2>Our Vision</h2>
+            <p>A Tanzania where every underserved patient, regardless of their economic background, has equal access to quality healthcare through an integrated, transparent, and scalable digital health system.</p>
+            <div class="divider"></div>
+            <ul>
+              <li>Universal healthcare access</li>
+              <li>Digital health integration</li>
+              <li>Economic equality in healthcare</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="statement-card">
+            <div class="icon">
+              <i class="fas fa-bullseye"></i>
+            </div>
+            <h2>Our Mission</h2>
+            <p>To expand access to essential, life-saving surgeries for underserved patients especially children in Tanzania by harnessing digital technology, strengthening community partnerships, and working closely with government structures.</p>
+            <div class="divider"></div>
+            <ul>
+              <li>Digital technology integration through CareLink</li>
+              <li>Community partnership building</li>
+              <li>Government collaboration</li>
+              <li>Free and timely treatment</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Our Story -->
+  <section class="our-story">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+          <img src="{% static 'images/img_2.jpg' %}" alt="RHCI Story" class="img-fluid rounded shadow">
+        </div>
+        <div class="col-lg-6">
+          <div class="content-block">
+            <span class="section-label">Our Story</span>
+            <h2>The Legacy of REIZA</h2>
+            <p class="mb-4">REIZA Health Care Initiative (RHCI) was born from the lives and legacies of three children who changed everything: Rehema, Isaac, and Zamda. Their names form REIZA, and their courage is the foundation of our mission.</p>
+            <p class="mb-4">We met these children in desperate need of care, bright and innocent lives held back not by illness alone, but by poverty. Despite the urgency, Zamda passed away before receiving help. Rehema and Isaac also developed several health complications. Their passing left a permanent mark on our hearts and a fierce determination in our souls.</p>
+            <p class="mb-4">Never again should a child die because healthcare was out of reach. From this pain grew purpose. RHCI now works tirelessly across Tanzania to identify, support, and treat underserved patients.</p>
+            <p>Through CareLink, our mobile app, we connect patients and health professionals in real-time, allowing those who can pay to access care while their payments help fund those who cannot. This creates a sustainable cycle of care, compassion, and equity.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- CareLink Section -->
+  <section class="carelink-section" style="background-color: #fff; padding: 80px 0;">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <span class="section-label">CareLink Platform</span>
+          <h2>Technology for Healthcare Equity</h2>
+          <p class="mb-4">CareLink is RHCI's innovative mobile app that revolutionizes healthcare accessibility in Tanzania. It connects patients with healthcare professionals in real-time, facilitating both paid and subsidized care delivery.</p>
+          <ul class="feature-list">
+            <li><i class="fas fa-check-circle text-success"></i> Real-time patient-doctor connections</li>
+            <li><i class="fas fa-check-circle text-success"></i> Transparent fundraising platform</li>
+            <li><i class="fas fa-check-circle text-success"></i> Cross-subsidized healthcare model</li>
+            <li><i class="fas fa-check-circle text-success"></i> Digital patient identification</li>
+          </ul>
+        </div>
+        <div class="col-lg-6">
+          <img src="{% static 'images/carelink-app.png' %}" alt="CareLink App" class="img-fluid rounded shadow-lg">
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Our Impact -->
+  <section class="our-impact">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center mb-5">
+          <span class="section-label">Our Impact</span>
+          <h2>Changing Lives, One Surgery at a Time</h2>
+          <p class="text-muted">Since 2021, our community has made a significant difference</p>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="impact-card">
+            <div class="impact-number">200+</div>
+            <h3>Surgeries Funded</h3>
+            <p>Life-changing procedures provided to patients in need across Tanzania</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="impact-card">
+            <div class="impact-number">$150K</div>
+            <h3>Funds Raised</h3>
+            <p>100% of donations directed to patient care with transparent tracking</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="impact-card">
+            <div class="impact-number">12</div>
+            <h3>Partner Hospitals</h3>
+            <p>Working with trusted healthcare providers across the country</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Our Team -->
+  <section class="our-team">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center mb-5">
+          <span class="section-label">Our Team</span>
+          <h2>Meet the People Behind RHCI</h2>
+          <p class="text-muted">Dedicated professionals working to transform healthcare accessibility</p>
+        </div>
+      </div>
+      
+      <div class="row">
+  
+          <!-- Team Member 2 -->
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="team-card">
+            <div class="team-image">
+              <img src="{% static 'images/team/ibrahim.jpg' %}" alt="Team Member" class="img-fluid">
+            </div>
+            <div class="team-info">
+              <h4>Dr ibrahim Batalingaya </h4>
+              <p class="position">CEO, Project Lead & COO, Dar es salaam</p>
+              <div class="social-links">
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Team Member 2 -->
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="team-card">
+            <div class="team-image">
+              <img src="{% static 'images/team/bege.jpg' %}" alt="Team Member" class="img-fluid">
+            </div>
+            <div class="team-info">
+              <h4>Dr Bege Zimbwe </h4>
+              <p class="position">Assistant Project Lead</p>
+              <div class="social-links">
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Team Member 3 -->
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="team-card">
+            <div class="team-image">
+              <img src="{% static 'images/team/pascal.jpg' %}" alt="Team Member" class="img-fluid">
+            </div>
+            <div class="team-info">
+              <h4>Dr Paschal Paschal</h4>
+              <p class="position">COO- Mbeya</p>
+              <div class="social-links">
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Team Member 4 -->
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="team-card">
+            <div class="team-image">
+              <img src="{% static 'images/team/pascal_nassaryt.jpg' %}" 
+                   alt="Dr Paschal Nassary"
+                   />
+            </div>
+            <div class="team-info">
+              <h4>Dr Paschal Nassary</h4>
+              <p class="position">COO RHCI - Morogoro</p>
+              <div class="social-links">
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Partners -->
+  <section class="our-partners">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <span class="section-label">Our Partners</span>
+                <h2>Working Together for Better Healthcare</h2>
+                <p class="text-muted">Collaborating with trusted organizations to maximize our impact</p>
+            </div>
+        </div>
+        
+        <div class="partner-slider">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <div class="partner-carousel">
+                        <div class="partner-logo">
+                            <img src="{% static 'images/partners/carelink.png' %}" alt="Carelink" class="img-fluid">
+                        </div>
+                        <div class="partner-logo">
+                            <img src="{% static 'images/partners/kitonka.png' %}" alt="Kitonka" class="img-fluid">
+                        </div>
+                        <div class="partner-logo">
+                            <img src="{% static 'images/partners/allgood.png' %}" alt="All Good Ventures" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </section>
+  
+  <!-- Testimonials -->
+  <section class="testimonials">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center mb-5">
+          <span class="section-label">Testimonials</span>
+          <h2>What People Say About RHCI</h2>
+          <p class="text-muted">Stories from our community of donors, patients, and partners</p>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-lg-4 mb-4">
+          <div class="testimonial-card">
+            <div class="quote-icon">
+              <i class="fas fa-quote-left"></i>
+            </div>
+            <p class="testimonial-text">"Being able to follow my donation from start to finish and see the real impact it made on a child's life was incredibly powerful. RHCI's transparency is unmatched."</p>
+            <div class="testimonial-author">
+              <div class="author-info">
+                <h5>James Wilson</h5>
+                <p>Donor from United Kingdom</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-4 mb-4">
+          <div class="testimonial-card">
+            <div class="quote-icon">
+              <i class="fas fa-quote-left"></i>
+            </div>
+            <p class="testimonial-text">"My son had been waiting for surgery for three years. Thanks to RHCI and their donors, he received his operation and can now walk properly for the first time in his life."</p>
+            <div class="testimonial-author">
+              <div class="author-info">
+                <h5>Neema Kilusu</h5>
+                <p>Patient's Mother from Arusha</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-4 mb-4">
+          <div class="testimonial-card">
+            <div class="quote-icon">
+              <i class="fas fa-quote-left"></i>
+            </div>
+            <p class="testimonial-text">"As a hospital administrator, I've seen how RHCI's model ensures that every shilling goes directly to patient care. Their efficiency and dedication are remarkable."</p>
+            <div class="testimonial-author">
+              <div class="author-info">
+                <h5>Dr. Emmanuel Nkya</h5>
+                <p>Partner Hospital Director</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+          <h2>Join Our Mission Today</h2>
+          <p class="mb-4">Help us create a future where quality healthcare is accessible to everyone in Tanzania.</p>
+          <div class="d-flex justify-content-center">
+            <a href="{% url 'core:signup' %}" class="btn btn-primary btn-lg me-3">Become a Donor</a>
+            <a href="{% url 'core:howitworks' %}" class="btn btn-outline-light btn-lg">How It Works</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/typography.css' %}">
+<style>
+  
+  .about-container {
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  /* Hero Section */
+  .about-hero {
+    background-color: var(--light-blue);
+    padding: 80px 0 60px;
+    position: relative;
+  }
+  
+  .about-hero h1 {
+    color: var(--primary-blue);
+    font-weight: 700;
+    font-size: 2.8rem;
+    margin-bottom: 1rem;
+  }
+  
+  .about-hero p.lead {
+    color: var(--secondary-blue);
+    font-size: 1.3rem;
+    font-weight: 400;
+  }
+  
+  /* Vision and Mission */
+  .vision-mission {
+    padding: 80px 0;
+    background-color: #fff;
+  }
+  
+  .statement-card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 40px 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    height: 100%;
+    transition: transform 0.3s;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .statement-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .statement-card .icon {
+    width: 70px;
+    height: 70px;
+    background-color: var(--light-blue);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 25px;
+  }
+  
+  .statement-card .icon i {
+    font-size: 28px;
+    color: var(--accent-blue);
+  }
+  
+  .statement-card h2 {
+    color: var(--primary-blue);
+    font-weight: 700;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+  }
+  
+  .statement-card p {
+    color: #555;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+  }
+  
+  .statement-card .divider {
+    height: 3px;
+    width: 50px;
+    background-color: var(--accent-blue);
+    margin-bottom: 20px;
+  }
+  
+  .statement-card ul {
+    padding-left: 20px;
+    color: #555;
+  }
+  
+  .statement-card ul li {
+    margin-bottom: 8px;
+  }
+  
+  /* Our Story */
+  .our-story {
+    padding: 80px 0;
+    background-color: var(--light-blue);
+  }
+  
+  .content-block .section-label {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+    color: var(--accent-blue);
+    display: block;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+  }
+  
+  .content-block h2 {
+    color: var(--primary-blue);
+    font-weight: 700;
+    font-size: 2.2rem;
+    margin-bottom: 25px;
+    line-height: 1.3;
+  }
+  
+  .content-block p {
+    color: #555;
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+  
+  /* CareLink Section */
+  .carelink-section {
+    background-color: #fff;
+    padding: 80px 0;
+  }
+  
+  .feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .feature-list li {
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 15px;
+    color: #555;
+    font-size: 1rem;
+  }
+  
+  .feature-list li i {
+    position: absolute;
+    left: 0;
+    top: 2px;
+    color: var(--accent-blue);
+  }
+  
+  /* Our Impact */
+  .our-impact {
+    padding: 80px 0;
+    background-color: #fff;
+  }
+  
+  .our-impact .section-label,
+  .our-team .section-label,
+  .our-partners .section-label,
+  .testimonials .section-label {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+    color: var(--accent-blue);
+    display: block;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+  }
+  
+  .our-impact h2,
+  .our-team h2,
+  .our-partners h2,
+  .testimonials h2 {
+    color: var(--primary-blue);
+    font-weight: 700;
+    font-size: 2.2rem;
+    margin-bottom: 15px;
+  }
+  
+  .impact-card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    text-align: center;
+    height: 100%;
+    transition: transform 0.3s;
+  }
+  
+  .impact-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .impact-card .impact-number {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--accent-blue);
+    margin-bottom: 15px;
+  }
+  
+  .impact-card h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--primary-blue);
+    margin-bottom: 15px;
+  }
+  
+  .impact-card p {
+    color: #555;
+    margin-bottom: 0;
+  }
+  
+  /* Our Team */
+  .our-team {
+    padding: 80px 0;
+    background-color: var(--light-blue);
+  }
+  
+  .team-card {
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    height: 100%;
+    transition: transform 0.3s;
+  }
+  
+  .team-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .team-image {
+    overflow: hidden;
+  }
+  
+  .team-image img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    transition: transform 0.5s;
+  }
+  
+  .team-card:hover .team-image img {
+    transform: scale(1.05);
+  }
+  
+  .team-info {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .team-info h4 {
+    font-weight: 600;
+    color: var(--primary-blue);
+    margin-bottom: 5px;
+    font-size: 1.2rem;
+  }
+  
+  .team-info .position {
+    color: var(--accent-blue);
+    font-weight: 500;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+  }
+  
+  .team-info .bio {
+    color: #555;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+  }
+  
+  .social-links a {
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    background-color: var(--light-blue);
+    border-radius: 50%;
+    color: var(--accent-blue);
+    line-height: 35px;
+    margin: 0 5px;
+    transition: all 0.3s;
+  }
+  
+  .social-links a:hover {
+    background-color: var(--accent-blue);
+    color: white;
+    transform: translateY(-3px);
+  }
+  
+  /* Our Partners */
+  .our-partners {
+    padding: 80px 0;
+    background-color: #fff;
+  }
+  
+  .partner-carousel {
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    padding: 20px 0;
+}
+
+.partner-logo {
+    flex: 0 0 25%;
+    min-width: 200px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: slide 20s linear infinite;
+}
+
+.partner-logo img {
+    max-width: 100%;
+    height: auto;
+    filter: grayscale(100%);
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.partner-logo:hover img {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* Clone logos for seamless loop */
+.partner-carousel::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .partner-logo {
+        flex: 0 0 50%;
+        min-width: 150px;
+    }
+}
+  
+  /* Testimonials */
+  .testimonials {
+    padding: 80px 0;
+    background-color: var(--light-blue);
+  }
+  
+  .testimonial-card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    height: 100%;
+    position: relative;
+    transition: transform 0.3s;
+  }
+  
+  .testimonial-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .testimonial-card .quote-icon {
+    position: absolute;
+    top: 20px;
+    left: 30px;
+    color: var(--accent-blue);
+    opacity: 0.2;
+    font-size: 2rem;
+  }
+  
+  .testimonial-text {
+    color: #555;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    margin-top: 30px;
+  }
+  
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+  }
+  
+  .author-info h5 {
+    font-weight: 600;
+    color: var(--primary-blue);
+    margin-bottom: 5px;
+    font-size: 1rem;
+  }
+  
+  .author-info p {
+    color: #777;
+    margin-bottom: 0;
+    font-size: 0.9rem;
+  }
+  
+  /* CTA Section */
+  .cta-section {
+    background-color: var(--primary-blue);
+    color: white;
+    padding: 80px 0;
+  }
+  
+  .cta-section h2 {
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  
+  .cta-section p {
+    font-size: 1.15rem;
+    opacity: 0.9;
+  }
+  
+  .btn-primary {
+    background-color: var(--accent-blue);
+    border-color: var(--accent-blue);
+    padding: 12px 30px;
+    font-weight: 600;
+    transition: all 0.3s;
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--hover-blue);
+    border-color: var(--hover-blue);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+  }
+  
+  .btn-outline-light {
+    border-color: #fff;
+    color: #fff;
+    padding: 12px 30px;
+    font-weight: 600;
+    transition: all 0.3s;
+  }
+  
+  .btn-outline-light:hover {
+    background-color: #fff;
+    color: var(--primary-blue);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 992px) {
+    .about-hero, .vision-mission, .our-story, .our-impact, 
+    .our-team, .our-partners, .testimonials, .cta-section {
+      padding: 60px 0;
+    }
+    
+    .about-hero h1 {
+      font-size: 2.2rem;
+    }
+    
+    .content-block h2 {
+      font-size: 1.8rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .statement-card, .impact-card, .team-card, .testimonial-card {
+      margin-bottom: 30px;
+    }
+    
+    .statement-card {
+      padding: 30px 20px;
+    }
+  }
+</style>
+{% endblock %}

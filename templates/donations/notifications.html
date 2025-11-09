@@ -1,0 +1,164 @@
+{% extends 'donations/base.html' %}
+{% load static %}
+
+{% block title %}Notifications | RHCI Donor Portal{% endblock %}
+
+{% block header_title %}Notifications{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h5 class="card-title mb-0">All Notifications</h5>
+    <div class="dropdown">
+      <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" id="notificationActions" data-bs-toggle="dropdown" aria-expanded="false">
+        Actions
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationActions">
+        <li><a class="dropdown-item" href="#"><i class="fas fa-check-double me-2"></i>Mark all as read</a></li>
+        <li><a class="dropdown-item" href="#"><i class="fas fa-bell-slash me-2"></i>Turn off notifications</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Notification settings</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="card-body p-0">
+    <div class="list-group list-group-flush">
+      {% for notification in notifications %}
+        <div class="list-group-item notification-item {% if not notification.is_read %}unread{% endif %}">
+          <div class="d-flex align-items-center">
+            <div class="notification-icon notification-{{ notification.type }}">
+              {% if notification.type == 'success' %}
+                <i class="fas fa-check-circle"></i>
+              {% elif notification.type == 'info' %}
+                <i class="fas fa-info-circle"></i>
+              {% elif notification.type == 'warning' %}
+                <i class="fas fa-exclamation-triangle"></i>
+              {% else %}
+                <i class="fas fa-bell"></i>
+              {% endif %}
+            </div>
+            <div class="notification-content ms-3">
+              <div class="notification-text">{{ notification.message }}</div>
+              <div class="notification-meta">
+                <span class="notification-time">{{ notification.date }}</span>
+              </div>
+            </div>
+            <div class="notification-actions ms-auto">
+              <button class="btn btn-sm btn-link p-0 me-2" title="Mark as read">
+                <i class="fas {% if notification.is_read %}fa-check-circle text-muted{% else %}fa-circle text-primary{% endif %}"></i>
+              </button>
+              <div class="dropdown">
+                <button class="btn btn-sm btn-link p-0" data-bs-toggle="dropdown">
+                  <i class="fas fa-ellipsis-v"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dropdown-item" href="#"><i class="fas fa-eye me-2"></i>View details</a></li>
+                  {% if notification.is_read %}
+                  <li><a class="dropdown-item" href="#"><i class="fas fa-circle me-2"></i>Mark as unread</a></li>
+                  {% else %}
+                  <li><a class="dropdown-item" href="#"><i class="fas fa-check-circle me-2"></i>Mark as read</a></li>
+                  {% endif %}
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item text-danger" href="#"><i class="fas fa-trash-alt me-2"></i>Delete</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <div class="text-center py-5">
+          <div class="empty-state-icon">
+            <i class="fas fa-bell-slash"></i>
+          </div>
+          <h4>No Notifications</h4>
+          <p class="text-muted">You don't have any notifications at this time.</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="card-footer">
+    <nav>
+      <ul class="pagination justify-content-center mb-0">
+        <li class="page-item disabled">
+          <a class="page-link" href="#" tabindex="-1"><i class="fas fa-chevron-left"></i></a>
+        </li>
+        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item">
+          <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  .notification-item {
+    border-left: 3px solid transparent;
+    transition: all 0.2s;
+  }
+  
+  .notification-item.unread {
+    border-left-color: var(--primary);
+    background-color: rgba(58, 124, 165, 0.05);
+  }
+  
+  .notification-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+  
+  .notification-success {
+    background-color: rgba(46, 204, 113, 0.1);
+    color: #2ecc71;
+  }
+  
+  .notification-info {
+    background-color: rgba(52, 152, 219, 0.1);
+    color: #3498db;
+  }
+  
+  .notification-warning {
+    background-color: rgba(241, 196, 15, 0.1);
+    color: #f1c40f;
+  }
+  
+  .notification-danger {
+    background-color: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+  }
+  
+  .notification-text {
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .notification-meta {
+    font-size: 0.75rem;
+    color: var(--gray);
+  }
+  
+  .notification-actions {
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  
+  .notification-item:hover .notification-actions {
+    opacity: 1;
+  }
+  
+  .empty-state-icon {
+    font-size: 3rem;
+    color: var(--gray-light);
+    margin-bottom: 1rem;
+  }
+</style>
+{% endblock %}

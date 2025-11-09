@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Discover Patients | RHCI{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <h1 class="mb-4">Discover Patients</h1>
+
+  {% if cases %}
+    <div class="row g-4">
+      {% for case in cases %}
+        <div class="col-md-4">
+          <div class="card h-100">
+            {% if case.photo %}
+              <img src="{{ case.photo.url }}" class="card-img-top" alt="{{ case }}">
+            {% else %}
+              <img src="{% static 'images/default_patient.jpg' %}" class="card-img-top" alt="Default patient">
+            {% endif %}
+            <div class="card-body">
+              <h5 class="card-title">
+                {{ case.title|default:case.patient.get_full_name|default:case }}
+              </h5>
+
+              {# safe access to story/description with fallbacks #}
+              {% if case.patient and case.patient.story %}
+                <p class="card-text">{{ case.patient.story|truncatechars:120 }}</p>
+              {% elif case.description %}
+                <p class="card-text">{{ case.description|truncatechars:120 }}</p>
+              {% else %}
+                <p class="card-text text-muted">No story available.</p>
+              {% endif %}
+
+              <a href="{% url 'core:patient_detail' case.id %}" class="btn btn-primary">View Profile</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-info">No patients available right now.</div>
+  {% endif %}
+</div>
+{% endblock %}

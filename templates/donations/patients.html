@@ -1,0 +1,424 @@
+{% extends 'donations/base.html' %}
+{% load static %}
+
+{% block title %}My Patients | RHCI Donor Portal{% endblock %}
+
+{% block header_title %}My Patients{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+  <div class="col-md-6 mb-3 mb-md-0">
+    <div class="input-group">
+      <span class="input-group-text bg-white border-end-0">
+        <i class="fas fa-search text-muted"></i>
+      </span>
+      <input type="text" class="form-control border-start-0" placeholder="Search patients...">
+    </div>
+  </div>
+  <div class="col-md-6 text-md-end">
+    <div class="btn-group" role="group">
+      <button type="button" class="btn btn-outline-secondary active">All</button>
+      <button type="button" class="btn btn-outline-secondary">In Treatment</button>
+      <button type="button" class="btn btn-outline-secondary">Completed</button>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <!-- Patient Card 1 -->
+  <div class="col-lg-6 col-xl-4 mb-4">
+    <div class="card patient-card">
+      <div class="card-img-wrapper">
+        <span class="status-badge in-treatment">In Treatment</span>
+        <img src="{% static 'images/patient1.jpg' %}" onerror="this.src='https://placehold.co/400x200/3a7ca5/white?text=Patient+Image'" class="card-img-top" alt="Patient">
+      </div>
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="card-title mb-0">Sarah James</h5>
+          <span class="age-badge">6 years</span>
+        </div>
+        <p class="card-text text-muted mb-3">Congenital clubfoot correction</p>
+        
+        <div class="progress-wrapper mb-3">
+          <div class="d-flex justify-content-between mb-1">
+            <span class="progress-label">Treatment Progress</span>
+            <span class="progress-percentage">65%</span>
+          </div>
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width: 65%"></div>
+          </div>
+        </div>
+        
+        <div class="funding-details mb-3">
+          <div class="d-flex justify-content-between text-muted small">
+            <span>Your contribution</span>
+            <span>$350 of $1,200</span>
+          </div>
+        </div>
+        
+        <div class="d-flex justify-content-between">
+          <button class="btn btn-sm btn-primary">
+            <i class="fas fa-notes-medical me-1"></i> View Updates
+          </button>
+          <button class="btn btn-sm btn-outline-primary">
+            <i class="fas fa-hand-holding-heart me-1"></i> Support More
+          </button>
+        </div>
+      </div>
+      <div class="card-footer bg-white">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="location">
+            <i class="fas fa-map-marker-alt text-muted me-1"></i>
+            <span class="small">Dar es Salaam</span>
+          </div>
+          <div class="updated">
+            <span class="small text-muted">Updated: Oct 8, 2025</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Patient Card 2 -->
+  <div class="col-lg-6 col-xl-4 mb-4">
+    <div class="card patient-card">
+      <div class="card-img-wrapper">
+        <span class="status-badge in-treatment">In Treatment</span>
+        <img src="{% static 'images/patient2.jpg' %}" onerror="this.src='https://placehold.co/400x200/3a7ca5/white?text=Patient+Image'" class="card-img-top" alt="Patient">
+      </div>
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="card-title mb-0">Michael Tumaini</h5>
+          <span class="age-badge">10 years</span>
+        </div>
+        <p class="card-text text-muted mb-3">Cleft palate repair</p>
+        
+        <div class="progress-wrapper mb-3">
+          <div class="d-flex justify-content-between mb-1">
+            <span class="progress-label">Treatment Progress</span>
+            <span class="progress-percentage">40%</span>
+          </div>
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width: 40%"></div>
+          </div>
+        </div>
+        
+        <div class="funding-details mb-3">
+          <div class="d-flex justify-content-between text-muted small">
+            <span>Your contribution</span>
+            <span>$250 of $800</span>
+          </div>
+        </div>
+        
+        <div class="d-flex justify-content-between">
+          <button class="btn btn-sm btn-primary">
+            <i class="fas fa-notes-medical me-1"></i> View Updates
+          </button>
+          <button class="btn btn-sm btn-outline-primary">
+            <i class="fas fa-hand-holding-heart me-1"></i> Support More
+          </button>
+        </div>
+      </div>
+      <div class="card-footer bg-white">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="location">
+            <i class="fas fa-map-marker-alt text-muted me-1"></i>
+            <span class="small">Mwanza</span>
+          </div>
+          <div class="updated">
+            <span class="small text-muted">Updated: Oct 5, 2025</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Patient Card 3 -->
+  <div class="col-lg-6 col-xl-4 mb-4">
+    <div class="card patient-card">
+      <div class="card-img-wrapper">
+        <span class="status-badge completed">Completed</span>
+        <img src="{% static 'images/patient3.jpg' %}" onerror="this.src='https://placehold.co/400x200/3a7ca5/white?text=Patient+Image'" class="card-img-top" alt="Patient">
+      </div>
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="card-title mb-0">Emma Zawadi</h5>
+          <span class="age-badge">8 years</span>
+        </div>
+        <p class="card-text text-muted mb-3">Burn contracture release</p>
+        
+        <div class="progress-wrapper mb-3">
+          <div class="d-flex justify-content-between mb-1">
+            <span class="progress-label">Treatment Progress</span>
+            <span class="progress-percentage">100%</span>
+          </div>
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width: 100%"></div>
+          </div>
+        </div>
+        
+        <div class="funding-details mb-3">
+          <div class="d-flex justify-content-between text-muted small">
+            <span>Your contribution</span>
+            <span>$500 of $1,500</span>
+          </div>
+        </div>
+        
+        <div class="d-flex justify-content-between">
+          <button class="btn btn-sm btn-primary">
+            <i class="fas fa-notes-medical me-1"></i> View Updates
+          </button>
+          <button class="btn btn-sm btn-outline-success">
+            <i class="fas fa-check-circle me-1"></i> Treatment Successful
+          </button>
+        </div>
+      </div>
+      <div class="card-footer bg-white">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="location">
+            <i class="fas fa-map-marker-alt text-muted me-1"></i>
+            <span class="small">Arusha</span>
+          </div>
+          <div class="updated">
+            <span class="small text-muted">Updated: Sep 28, 2025</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Patient Card 4 -->
+  <div class="col-lg-6 col-xl-4 mb-4">
+    <div class="card patient-card">
+      <div class="card-img-wrapper">
+        <span class="status-badge completed">Completed</span>
+        <img src="{% static 'images/patient4.jpg' %}" onerror="this.src='https://placehold.co/400x200/3a7ca5/white?text=Patient+Image'" class="card-img-top" alt="Patient">
+      </div>
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="card-title mb-0">John Baraka</h5>
+          <span class="age-badge">14 years</span>
+        </div>
+        <p class="card-text text-muted mb-3">Scoliosis correction</p>
+        
+        <div class="progress-wrapper mb-3">
+          <div class="d-flex justify-content-between mb-1">
+            <span class="progress-label">Treatment Progress</span>
+            <span class="progress-percentage">100%</span>
+          </div>
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width: 100%"></div>
+          </div>
+        </div>
+        
+        <div class="funding-details mb-3">
+          <div class="d-flex justify-content-between text-muted small">
+            <span>Your contribution</span>
+            <span>$150 of $3,000</span>
+          </div>
+        </div>
+        
+        <div class="d-flex justify-content-between">
+          <button class="btn btn-sm btn-primary">
+            <i class="fas fa-notes-medical me-1"></i> View Updates
+          </button>
+          <button class="btn btn-sm btn-outline-success">
+            <i class="fas fa-check-circle me-1"></i> Treatment Successful
+          </button>
+        </div>
+      </div>
+      <div class="card-footer bg-white">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="location">
+            <i class="fas fa-map-marker-alt text-muted me-1"></i>
+            <span class="small">Dar es Salaam</span>
+          </div>
+          <div class="updated">
+            <span class="small text-muted">Updated: Sep 15, 2025</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Patient Card 5 -->
+  <div class="col-lg-6 col-xl-4 mb-4">
+    <div class="card patient-card">
+      <div class="card-img-wrapper">
+        <span class="status-badge in-treatment">In Treatment</span>
+        <img src="{% static 'images/patient5.jpg' %}" onerror="this.src='https://placehold.co/400x200/3a7ca5/white?text=Patient+Image'" class="card-img-top" alt="Patient">
+      </div>
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="card-title mb-0">Lucy Amani</h5>
+          <span class="age-badge">4 years</span>
+        </div>
+        <p class="card-text text-muted mb-3">Hydrocephalus treatment</p>
+        
+        <div class="progress-wrapper mb-3">
+          <div class="d-flex justify-content-between mb-1">
+            <span class="progress-label">Treatment Progress</span>
+            <span class="progress-percentage">25%</span>
+          </div>
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width: 25%"></div>
+          </div>
+        </div>
+        
+        <div class="funding-details mb-3">
+          <div class="d-flex justify-content-between text-muted small">
+            <span>Your contribution</span>
+            <span>$200 of $1,800</span>
+          </div>
+        </div>
+        
+        <div class="d-flex justify-content-between">
+          <button class="btn btn-sm btn-primary">
+            <i class="fas fa-notes-medical me-1"></i> View Updates
+          </button>
+          <button class="btn btn-sm btn-outline-primary">
+            <i class="fas fa-hand-holding-heart me-1"></i> Support More
+          </button>
+        </div>
+      </div>
+      <div class="card-footer bg-white">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="location">
+            <i class="fas fa-map-marker-alt text-muted me-1"></i>
+            <span class="small">Moshi</span>
+          </div>
+          <div class="updated">
+            <span class="small text-muted">Updated: Oct 10, 2025</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav aria-label="Patient pagination" class="mt-2">
+  <ul class="pagination justify-content-center">
+    <li class="page-item disabled">
+      <a class="page-link" href="#" tabindex="-1"><i class="fas fa-chevron-left"></i></a>
+    </li>
+    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+    <li class="page-item"><a class="page-link" href="#">2</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item">
+      <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
+    </li>
+  </ul>
+</nav>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  .patient-card {
+    border: none;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .patient-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+  }
+  
+  .card-img-wrapper {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+  }
+  
+  .card-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+  }
+  
+  .patient-card:hover .card-img-wrapper img {
+    transform: scale(1.05);
+  }
+  
+  .status-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    z-index: 2;
+  }
+  
+  .status-badge.in-treatment {
+    background-color: var(--primary);
+    color: white;
+  }
+  
+  .status-badge.completed {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .age-badge {
+    background-color: #f5f7fa;
+    color: var(--secondary);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+  
+  .progress {
+    height: 6px;
+    border-radius: 3px;
+  }
+  
+  .progress-bar {
+    background-color: var(--primary);
+  }
+  
+  .progress-label, .progress-percentage {
+    font-size: 0.85rem;
+    color: var(--gray);
+  }
+  
+  .card-footer {
+    border-top: 1px solid rgba(0,0,0,0.05);
+    padding: 0.75rem 1.25rem;
+  }
+  
+  .btn-group .btn-outline-secondary {
+    color: var(--secondary);
+    border-color: #dee2e6;
+  }
+  
+  .btn-group .btn-outline-secondary.active {
+    background-color: var(--secondary);
+    color: white;
+    border-color: var(--secondary);
+  }
+  
+  .input-group-text,
+  .form-control {
+    border-color: #dee2e6;
+  }
+  
+  .page-link {
+    color: var(--primary);
+    border-radius: 4px;
+    margin: 0 3px;
+  }
+  
+  .page-item.active .page-link {
+    background-color: var(--primary);
+    border-color: var(--primary);
+  }
+  
+  .page-link:hover {
+    color: var(--primary-dark);
+  }
+</style>
+{% endblock %}

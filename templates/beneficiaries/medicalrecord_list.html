@@ -1,0 +1,7 @@
+<h2>Medical Records</h2>
+<ul>
+  {% for record in records %}
+    <li>{{ record }} ({{ record.created_at }})</li>
+  {% endfor %}
+</ul>
+<a href="{% url 'medicalrecord-add' %}">Add Medical Record</a>

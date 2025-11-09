@@ -1,0 +1,338 @@
+{% extends "admin/base.html" %}  <!-- Changed to extend base.html directly instead of base_site.html -->
+{% load i18n static %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('RHCI Admin') }}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+        <img src="{% static 'images/logo.jpg' %}" height="40" alt="RHCI" style="margin-right: 10px; vertical-align: middle;">
+        <span style="color: white; font-size: 24px;">RHCI Admin</span>
+    </a>
+</h1>
+{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+  :root {
+    --primary-color: #102a43;
+    --accent-color: #2bb673;
+    --light-bg: #f8f9fa;
+  }
+  
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    background: linear-gradient(135deg, #102a43 0%, #255683 100%);
+    background-size: cover;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  
+  #login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    position: relative;
+  }
+  
+  .login-branding {
+    text-align: center;
+    margin-bottom: 20px;
+    color: white;
+  }
+  
+  .login-branding img {
+    height: 70px;
+    margin-bottom: 15px;
+  }
+  
+  .login-branding h1 {
+    font-size: 28px;
+    margin: 0 0 10px 0;
+    font-weight: 600;
+  }
+  
+  .login-branding .tagline {
+    font-size: 16px;
+    opacity: 0.8;
+  }
+  
+  .login-card {
+    background: white;
+    width: 420px;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    position: relative;
+    z-index: 10;
+  }
+  
+  .login-card h2 {
+    color: #102a43;
+    margin: 0 0 25px 0;
+    text-align: center;
+    font-weight: 600;
+    font-size: 22px;
+  }
+  
+  .login-form .form-group {
+    margin-bottom: 25px;
+  }
+  
+  .login-form .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #4a5568;
+    font-weight: 500;
+    font-size: 15px;
+  }
+  
+  .login-form .input-with-icon {
+    position: relative;
+  }
+  
+  .login-form .input-with-icon i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #a0aec0;
+  }
+  
+  .login-form .form-control {
+    width: 100%;
+    padding: 12px 15px 12px 45px;
+    font-size: 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    transition: all 0.3s;
+    box-sizing: border-box;
+  }
+  
+  .login-form .form-control:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(43, 182, 115, 0.2);
+    outline: none;
+  }
+  
+  .btn-login {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .btn-login:hover {
+    background: #239a61;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(43, 182, 115, 0.3);
+  }
+  
+  .btn-login i {
+    margin-right: 8px;
+  }
+  
+  .login-footer {
+    margin-top: 30px;
+    text-align: center;
+    color: #718096;
+    font-size: 14px;
+  }
+  
+  .login-footer a {
+    color: var(--accent-color);
+    text-decoration: none;
+  }
+  
+  .login-footer a:hover {
+    text-decoration: underline;
+  }
+  
+  .animated-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    overflow: hidden;
+  }
+  
+  .bg-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.03);
+  }
+  
+  .circle-1 {
+    width: 400px;
+    height: 400px;
+    top: -100px;
+    left: -100px;
+  }
+  
+  .circle-2 {
+    width: 600px;
+    height: 600px;
+    bottom: -200px;
+    right: -200px;
+  }
+  
+  .circle-3 {
+    width: 250px;
+    height: 250px;
+    top: 30%;
+    right: 10%;
+  }
+  
+  /* Media queries for responsive design */
+  @media (max-width: 480px) {
+    .login-card {
+      width: 100%;
+      max-width: 320px;
+      padding: 30px 20px;
+    }
+    
+    .login-branding img {
+      height: 50px;
+    }
+    
+    .login-branding h1 {
+      font-size: 24px;
+    }
+  }
+  
+  /* Error messages */
+  .errornote {
+    background: rgba(231, 76, 60, 0.1);
+    border-left: 4px solid #e74c3c;
+    padding: 15px;
+    margin: 0 0 20px 0;
+    color: #c0392b;
+    border-radius: 4px;
+  }
+  
+  /* Remove any conflicting admin styles */
+  #header { display: none; }
+  #container { width: 100%; max-width: none; }
+  .login .form-row { padding: 0; }
+  .login .form-row label { display: block; float: none; padding: 0; line-height: normal; width: auto; }
+  .login .form-row #id_username, 
+  .login .form-row #id_password {
+    width: 100%;
+    padding: 12px 15px 12px 45px;
+    font-size: 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+  }
+  .login .submit-row { padding: 0; margin: 25px 0 0 0; text-align: center; }
+  .login .submit-row input { width: 100%; padding: 12px; }
+  #content { padding: 0; margin: 0; }
+
+  /* Add these new styles to completely hide sidebar and other admin elements */
+  #nav-sidebar, .sticky, #changelist-filter, .sidebar {
+    display: none !important;
+  }
+  
+  #container { 
+    width: 100% !important; 
+    max-width: none !important;
+    padding: 0 !important;
+  }
+  
+  .main {
+    width: 100% !important;
+    padding: 0 !important;
+  }
+</style>
+{% endblock %}
+
+{% block bodyclass %}login login-page{% endblock %}
+
+{% block nav-global %}{% endblock %}
+{% block nav-sidebar %}{% endblock %}
+{% block usertools %}{% endblock %}
+{% block breadcrumbs %}{% endblock %}
+{% block content_title %}{% endblock %}
+
+{% block content %}
+<div id="login-container">
+  <div class="animated-bg">
+    <div class="bg-circle circle-1"></div>
+    <div class="bg-circle circle-2"></div>
+    <div class="bg-circle circle-3"></div>
+  </div>
+  
+  <div class="login-branding">
+    <img src="{% static 'images/logo.jpg' %}" alt="RHCI" style="background-color: white; border-radius: 10px; padding: 5px;">
+    <h1>REIZA Health Care Initiative</h1>
+    
+  </div>
+  
+  <div class="login-card">
+    <h2>Admin Login</h2>
+    
+    {% if form.errors and not form.non_field_errors %}
+    <p class="errornote">
+    {% if form.errors.items|length == 1 %}{% translate "Please correct the error below." %}{% else %}{% translate "Please correct the errors below." %}{% endif %}
+    </p>
+    {% endif %}
+
+    {% if form.non_field_errors %}
+    {% for error in form.non_field_errors %}
+    <p class="errornote">
+        {{ error }}
+    </p>
+    {% endfor %}
+    {% endif %}
+
+    <form action="{{ app_path }}" method="post" id="login-form" class="login-form">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="id_username">{{ form.username.label }}</label>
+        <div class="input-with-icon">
+          <i class="fas fa-user"></i>
+          {{ form.username }}
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="id_password">{{ form.password.label }}</label>
+        <div class="input-with-icon">
+          <i class="fas fa-lock"></i>
+          {{ form.password }}
+        </div>
+      </div>
+      
+      <input type="hidden" name="next" value="{% if next %}{{ next }}{% else %}/admin/admin_interface/{% endif %}">
+      
+      <button type="submit" class="btn-login">
+        <i class="fas fa-sign-in-alt"></i>
+        {% translate 'Log in' %}
+      </button>
+    </form>
+    
+    <div class="login-footer">
+      <p>© {% now "Y" %} RHCI - All rights reserved.</p>
+      <p><a href="#">Forgot Password?</a></p>
+    </div>
+  </div>
+</div>
+{% endblock %}

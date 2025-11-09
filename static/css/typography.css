@@ -1,0 +1,144 @@
+:root {
+  /* Font families */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  
+  /* Font sizes */
+  --text-xs: 0.75rem;    /* 12px */
+  --text-sm: 0.875rem;   /* 14px */
+  --text-base: 1rem;     /* 16px */
+  --text-lg: 1.125rem;   /* 18px */
+  --text-xl: 1.25rem;    /* 20px */
+  --text-2xl: 1.5rem;    /* 24px */
+  --text-3xl: 1.875rem;  /* 30px */
+  --text-4xl: 2.25rem;   /* 36px */
+  
+  /* Font weights */
+  --font-light: 300;
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  
+  /* Line heights */
+  --leading-none: 1;
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 2;
+  
+  /* Colors */
+  --primary-blue: #1a2a36;
+  --secondary-blue: #2c445a;
+  --accent-blue: #3a7ca5;
+  --hover-blue: #4d97c3;
+  --light-blue: #e8f4fc;
+  --text-primary: #2d3748;
+  --text-secondary: #4a5568;
+  --text-muted: #718096;
+}
+
+/* Base Typography */
+body {
+  font-family: var(--font-primary);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Headings */
+h1, .h1 {
+  font-size: var(--text-4xl);
+  font-weight: var(--font-bold);
+  line-height: var(--leading-tight);
+  color: var(--primary-blue);
+  margin-bottom: 1rem;
+}
+
+h2, .h2 {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-bold);
+  line-height: var(--leading-tight);
+  color: var(--primary-blue);
+  margin-bottom: 0.75rem;
+}
+
+h3, .h3 {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-snug);
+  color: var(--secondary-blue);
+  margin-bottom: 0.75rem;
+}
+
+h4, .h4 {
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-snug);
+  color: var(--secondary-blue);
+  margin-bottom: 0.5rem;
+}
+
+h5, .h5 {
+  font-size: var(--text-lg);
+  font-weight: var(--font-medium);
+  line-height: var(--leading-normal);
+  color: var(--secondary-blue);
+  margin-bottom: 0.5rem;
+}
+
+/* Paragraphs */
+p {
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.lead {
+  font-size: var(--text-lg);
+  font-weight: var(--font-normal);
+  line-height: var(--leading-relaxed);
+  color: var(--text-secondary);
+}
+
+/* Links */
+a {
+  color: var(--accent-blue);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--hover-blue);
+  text-decoration: underline;
+}
+
+/* Lists */
+ul, ol {
+  margin-bottom: 1rem;
+  padding-left: 1.25rem;
+}
+
+li {
+  margin-bottom: 0.5rem;
+  line-height: var(--leading-normal);
+  color: var(--text-secondary);
+}
+
+/* Responsive typography */
+@media (max-width: 768px) {
+  :root {
+    --text-4xl: 2rem;     /* 32px */
+    --text-3xl: 1.75rem;  /* 28px */
+    --text-2xl: 1.375rem; /* 22px */
+    --text-xl: 1.125rem;  /* 18px */
+  }
+  
+  .lead {
+    font-size: var(--text-base);
+  }
+}

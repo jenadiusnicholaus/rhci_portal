@@ -1,0 +1,528 @@
+{% extends 'donations/base.html' %}
+{% load static %}
+
+{% block title %}Dashboard | RHCI Donor Portal{% endblock %}
+
+{% block header_title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+  <!-- Welcome Card -->
+  <div class="col-12 mb-4">
+    <div class="card">
+      <div class="card-body d-flex align-items-center">
+        <div class="me-4">
+          <div class="welcome-icon">
+            <i class="fas fa-hand-holding-heart"></i>
+          </div>
+        </div>
+        <div>
+          <h2 class="welcome-heading">Welcome back, {{ request.user.first_name }}!</h2>
+          <p class="welcome-text mb-0">Thank you for your continued support. Your contributions are making a real difference.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Stats Cards -->
+  <div class="col-lg-3 col-md-6 mb-4">
+    <div class="card h-100">
+      <div class="card-body">
+        <div class="stat-card">
+          <div class="stat-card-info">
+            <div class="stat-card-title">Total Donated</div>
+            <div class="stat-card-value">{{ total_donated }}</div>
+          </div>
+          <div class="stat-card-icon">
+            <i class="fas fa-dollar-sign"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-lg-3 col-md-6 mb-4">
+    <div class="card h-100">
+      <div class="card-body">
+        <div class="stat-card">
+          <div class="stat-card-info">
+            <div class="stat-card-title">Patients Supported</div>
+            <div class="stat-card-value">{{ patients_count }}</div>
+          </div>
+          <div class="stat-card-icon">
+            <i class="fas fa-user-injured"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-lg-3 col-md-6 mb-4">
+    <div class="card h-100">
+      <div class="card-body">
+        <div class="stat-card">
+          <div class="stat-card-info">
+            <div class="stat-card-title">Donations Made</div>
+            <div class="stat-card-value">{{ donations_count }}</div>
+          </div>
+          <div class="stat-card-icon">
+            <i class="fas fa-gift"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-lg-3 col-md-6 mb-4">
+    <div class="card h-100">
+      <div class="card-body">
+        <div class="stat-card">
+          <div class="stat-card-info">
+            <div class="stat-card-title">Impact Score</div>
+            <div class="stat-card-value">{{ impact_score }}</div>
+          </div>
+          <div class="stat-card-icon">
+            <i class="fas fa-heart"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Recent Patients -->
+<div class="row mb-4">
+  <div class="col-lg-8 mb-4">
+    <div class="card h-100">
+      <div class="card-header">
+        <h5 class="card-title">Patients You're Supporting</h5>
+        <a href="{% url 'donations:patients' %}" class="btn btn-sm btn-outline-primary">View All</a>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Patient</th>
+                <th>Condition</th>
+                <th>Progress</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <img src="{% static 'images/patient-placeholder.jpg' %}" alt="Patient" class="patient-avatar me-2">
+                    <div>Ahmed M.</div>
+                  </div>
+                </td>
+                <td>Cleft Palate</td>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div class="progress flex-grow-1 me-2" style="width: 100px;">
+                      <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <span>75%</span>
+                  </div>
+                </td>
+                <td><span class="badge bg-success">Scheduled</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <img src="{% static 'images/patient-placeholder.jpg' %}" alt="Patient" class="patient-avatar me-2">
+                    <div>Maria J.</div>
+                  </div>
+                </td>
+                <td>Clubfoot</td>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div class="progress flex-grow-1 me-2" style="width: 100px;">
+                      <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <span>100%</span>
+                  </div>
+                </td>
+                <td><span class="badge bg-info">Post-Op</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <img src="{% static 'images/patient-placeholder.jpg' %}" alt="Patient" class="patient-avatar me-2">
+                    <div>Daniel K.</div>
+                  </div>
+                </td>
+                <td>Burns</td>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div class="progress flex-grow-1 me-2" style="width: 100px;">
+                      <div class="progress-bar" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <span>40%</span>
+                  </div>
+                </td>
+                <td><span class="badge bg-warning text-dark">Fundraising</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Recent Donations -->
+  <div class="col-lg-4 mb-4">
+    <div class="card h-100">
+      <div class="card-header">
+        <h5 class="card-title">Recent Donations</h5>
+        <a href="{% url 'donations:donations' %}" class="btn btn-sm btn-outline-primary">View All</a>
+      </div>
+      <div class="card-body">
+        <div class="donations-list">
+          <div class="donation-item">
+            <div class="donation-icon">
+              <i class="fas fa-hand-holding-heart"></i>
+            </div>
+            <div class="donation-info">
+              <div class="donation-amount">$250.00</div>
+              <div class="donation-meta">
+                <span class="donation-date">Oct 12, 2025</span>
+                <span class="donation-status succeeded">Succeeded</span>
+              </div>
+              <div class="donation-recipient">
+                To: <a href="#">Ahmed M. - Cleft Palate Surgery</a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="donation-item">
+            <div class="donation-icon">
+              <i class="fas fa-hand-holding-heart"></i>
+            </div>
+            <div class="donation-info">
+              <div class="donation-amount">$150.00</div>
+              <div class="donation-meta">
+                <span class="donation-date">Sep 28, 2025</span>
+                <span class="donation-status succeeded">Succeeded</span>
+              </div>
+              <div class="donation-recipient">
+                To: <a href="#">Maria J. - Clubfoot Treatment</a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="donation-item">
+            <div class="donation-icon">
+              <i class="fas fa-hand-holding-heart"></i>
+            </div>
+            <div class="donation-info">
+              <div class="donation-amount">$100.00</div>
+              <div class="donation-meta">
+                <span class="donation-date">Sep 15, 2025</span>
+                <span class="donation-status succeeded">Succeeded</span>
+              </div>
+              <div class="donation-recipient">
+                To: <a href="#">Daniel K. - Burns Treatment</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer text-center">
+        <a href="{% url 'donations:discover' %}" class="btn btn-primary">Donate to More Patients</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  /* Welcome Card */
+  .welcome-icon {
+    width: 64px;
+    height: 64px;
+    background-color: var(--primary-light);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+  }
+  
+  .welcome-heading {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--primary);
+  }
+  
+  .welcome-text {
+    color: var(--gray);
+  }
+  
+  /* Stats Cards */
+  .stat-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .stat-card-info {
+    flex: 1;
+  }
+  
+  .stat-card-title {
+    font-size: 0.875rem;
+    color: var(--gray);
+    margin-bottom: 0.5rem;
+  }
+  
+  .stat-card-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary);
+  }
+  
+  .stat-card-icon {
+    width: 48px;
+    height: 48px;
+    background-color: var(--primary-light);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+  }
+  
+  /* Patient Table */
+  .patient-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .progress {
+    height: 6px;
+    border-radius: 3px;
+  }
+  
+  .progress-bar {
+    background-color: var(--primary-light);
+  }
+  
+  /* Donations List */
+  .donations-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .donation-item {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--gray-light);
+  }
+  
+  .donation-item:last-child {
+    border-bottom: none;
+  }
+  
+  .donation-icon {
+    width: 36px;
+    height: 36px;
+    background-color: var(--primary-light);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    margin-right: 1rem;
+  }
+  
+  .donation-info {
+    flex: 1;
+  }
+  
+  .donation-amount {
+    font-weight: 600;
+    color: var(--primary);
+  }
+  
+  .donation-meta {
+    display: flex;
+    align-items: center;
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    color: var(--gray);
+  }
+  
+  .donation-date {
+    margin-right: 0.5rem;
+  }
+  
+  .donation-status {
+    padding: 0.125rem 0.375rem;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 500;
+  }
+  
+  .donation-status.succeeded {
+    background-color: rgba(46, 204, 113, 0.1);
+    color: #2ecc71;
+  }
+  
+  .donation-status.initiated {
+    background-color: rgba(241, 196, 15, 0.1);
+    color: #f1c40f;
+  }
+  
+  .donation-status.failed {
+    background-color: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+  }
+  
+  .donation-recipient {
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+  
+  .donation-recipient a {
+    color: var(--primary-light);
+    text-decoration: none;
+  }
+  
+  .donation-recipient a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Timeline */
+  .timeline {
+    position: relative;
+    padding-left: 30px;
+  }
+  
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 9px;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background-color: var(--gray-light);
+  }
+  
+  .timeline-item {
+    position: relative;
+    margin-bottom: 25px;
+  }
+  
+  .timeline-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  .timeline-dot {
+    position: absolute;
+    left: -30px;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+  }
+  
+  .timeline-date {
+    font-size: 0.75rem;
+    color: var(--gray);
+    margin-bottom: 5px;
+    font-weight: 500;
+  }
+  
+  .timeline-title {
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: var(--primary);
+  }
+  
+  .timeline-text {
+    color: var(--gray-dark);
+    font-size: 0.875rem;
+  }
+  
+  /* Impact Stats */
+  .impact-stat-card {
+    text-align: center;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+  }
+  
+  .impact-stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+  
+  .impact-stat-label {
+    font-size: 0.8rem;
+    color: var(--gray);
+  }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Impact Chart
+    const ctx = document.getElementById('impactChart').getContext('2d');
+    const impactChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Cleft Palate', 'Clubfoot', 'Burns'],
+        datasets: [{
+          data: [250, 150, 100],
+          backgroundColor: [
+            '#3a7ca5',
+            '#2ecc71',
+            '#f1c40f'
+          ],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '70%',
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              usePointStyle: true,
+              padding: 20
+            }
+          },
+          title: {
+            display: true,
+            text: 'Donation Breakdown by Condition',
+            padding: {
+              top: 10,
+              bottom: 20
+            }
+          }
+        }
+      }
+    });
+  });
+</script>
+{% endblock %}
