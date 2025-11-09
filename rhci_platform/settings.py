@@ -50,7 +50,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'sectionally-unterrible-dianne.ngrok-free.dev']  # add your ngrok host here
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'sectionally-unterrible-dianne.ngrok-free.dev', '185.237.253.223']  # add your ngrok host here
 #ngrok config add-authtoken 33rkK6QF9N8InA87LrpKRnt2lQi_AX7jpjzPUGb7ij6iBYTT
 
 # Application definition
